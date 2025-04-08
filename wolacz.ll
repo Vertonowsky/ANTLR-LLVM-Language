@@ -41,7 +41,5 @@ call void @llvm.memcpy.p0i8.p0i8.i64(i8* %14, i8* %15, i64 7, i1 false)
 %19 = call i32 (i8*, ...) @scanf(i8* getelementptr ([3 x i8], [3 x i8]* @.stringRead, i32 0, i32 0), i8* %18)
 %20 = getelementptr [100 x i8], [100 x i8]* %nazwisko, i32 0, i32 0
 %21 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.stringFormat, i32 0, i32 0), i8* %20)
-; string literal (not yet supported): "asd"
-%22 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.intFormat, i32 0, i32 0), i32 %null)
 ret i32 0
 }
