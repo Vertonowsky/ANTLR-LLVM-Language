@@ -8,193 +8,113 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface LangXListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link LangXParser#prog}.
+	 * Enter a parse tree produced by {@link LangXParser#program}.
 	 * @param ctx the parse tree
 	 */
-	void enterProg(LangXParser.ProgContext ctx);
+	void enterProgram(LangXParser.ProgramContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link LangXParser#prog}.
+	 * Exit a parse tree produced by {@link LangXParser#program}.
 	 * @param ctx the parse tree
 	 */
-	void exitProg(LangXParser.ProgContext ctx);
+	void exitProgram(LangXParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code print}
-	 * labeled alternative in {@link LangXParser#stat}.
+	 * Enter a parse tree produced by {@link LangXParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrint(LangXParser.PrintContext ctx);
+	void enterStatement(LangXParser.StatementContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code print}
-	 * labeled alternative in {@link LangXParser#stat}.
+	 * Exit a parse tree produced by {@link LangXParser#statement}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrint(LangXParser.PrintContext ctx);
+	void exitStatement(LangXParser.StatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code read}
-	 * labeled alternative in {@link LangXParser#stat}.
+	 * Enter a parse tree produced by {@link LangXParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterRead(LangXParser.ReadContext ctx);
+	void enterVariableDeclaration(LangXParser.VariableDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code read}
-	 * labeled alternative in {@link LangXParser#stat}.
+	 * Exit a parse tree produced by {@link LangXParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitRead(LangXParser.ReadContext ctx);
+	void exitVariableDeclaration(LangXParser.VariableDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code assign}
-	 * labeled alternative in {@link LangXParser#stat}.
+	 * Enter a parse tree produced by {@link LangXParser#arrayDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterAssign(LangXParser.AssignContext ctx);
+	void enterArrayDeclaration(LangXParser.ArrayDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code assign}
-	 * labeled alternative in {@link LangXParser#stat}.
+	 * Exit a parse tree produced by {@link LangXParser#arrayDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitAssign(LangXParser.AssignContext ctx);
+	void exitArrayDeclaration(LangXParser.ArrayDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code single0}
-	 * labeled alternative in {@link LangXParser#expr0}.
+	 * Enter a parse tree produced by {@link LangXParser#matrixDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterSingle0(LangXParser.Single0Context ctx);
+	void enterMatrixDeclaration(LangXParser.MatrixDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code single0}
-	 * labeled alternative in {@link LangXParser#expr0}.
+	 * Exit a parse tree produced by {@link LangXParser#matrixDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitSingle0(LangXParser.Single0Context ctx);
+	void exitMatrixDeclaration(LangXParser.MatrixDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code add}
-	 * labeled alternative in {@link LangXParser#expr0}.
+	 * Enter a parse tree produced by {@link LangXParser#assignment}.
 	 * @param ctx the parse tree
 	 */
-	void enterAdd(LangXParser.AddContext ctx);
+	void enterAssignment(LangXParser.AssignmentContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code add}
-	 * labeled alternative in {@link LangXParser#expr0}.
+	 * Exit a parse tree produced by {@link LangXParser#assignment}.
 	 * @param ctx the parse tree
 	 */
-	void exitAdd(LangXParser.AddContext ctx);
+	void exitAssignment(LangXParser.AssignmentContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code sub}
-	 * labeled alternative in {@link LangXParser#expr0}.
+	 * Enter a parse tree produced by {@link LangXParser#ioStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterSub(LangXParser.SubContext ctx);
+	void enterIoStatement(LangXParser.IoStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code sub}
-	 * labeled alternative in {@link LangXParser#expr0}.
+	 * Exit a parse tree produced by {@link LangXParser#ioStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitSub(LangXParser.SubContext ctx);
+	void exitIoStatement(LangXParser.IoStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code single1}
-	 * labeled alternative in {@link LangXParser#expr1}.
+	 * Enter a parse tree produced by {@link LangXParser#expressionStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterSingle1(LangXParser.Single1Context ctx);
+	void enterExpressionStatement(LangXParser.ExpressionStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code single1}
-	 * labeled alternative in {@link LangXParser#expr1}.
+	 * Exit a parse tree produced by {@link LangXParser#expressionStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitSingle1(LangXParser.Single1Context ctx);
+	void exitExpressionStatement(LangXParser.ExpressionStatementContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code mult}
-	 * labeled alternative in {@link LangXParser#expr1}.
+	 * Enter a parse tree produced by {@link LangXParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterMult(LangXParser.MultContext ctx);
+	void enterExpression(LangXParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code mult}
-	 * labeled alternative in {@link LangXParser#expr1}.
+	 * Exit a parse tree produced by {@link LangXParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitMult(LangXParser.MultContext ctx);
+	void exitExpression(LangXParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code div}
-	 * labeled alternative in {@link LangXParser#expr1}.
+	 * Enter a parse tree produced by {@link LangXParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void enterDiv(LangXParser.DivContext ctx);
+	void enterValue(LangXParser.ValueContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code div}
-	 * labeled alternative in {@link LangXParser#expr1}.
+	 * Exit a parse tree produced by {@link LangXParser#value}.
 	 * @param ctx the parse tree
 	 */
-	void exitDiv(LangXParser.DivContext ctx);
+	void exitValue(LangXParser.ValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code idd}
-	 * labeled alternative in {@link LangXParser#expr2}.
+	 * Enter a parse tree produced by {@link LangXParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void enterIdd(LangXParser.IddContext ctx);
+	void enterType(LangXParser.TypeContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code idd}
-	 * labeled alternative in {@link LangXParser#expr2}.
+	 * Exit a parse tree produced by {@link LangXParser#type}.
 	 * @param ctx the parse tree
 	 */
-	void exitIdd(LangXParser.IddContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code int}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void enterInt(LangXParser.IntContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code int}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void exitInt(LangXParser.IntContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code real}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void enterReal(LangXParser.RealContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code real}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void exitReal(LangXParser.RealContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code toint}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void enterToint(LangXParser.TointContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code toint}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void exitToint(LangXParser.TointContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code toreal}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void enterToreal(LangXParser.TorealContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code toreal}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void exitToreal(LangXParser.TorealContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code par}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void enterPar(LangXParser.ParContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code par}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 */
-	void exitPar(LangXParser.ParContext ctx);
+	void exitType(LangXParser.TypeContext ctx);
 }

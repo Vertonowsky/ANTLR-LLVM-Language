@@ -11,114 +11,69 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface LangXVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link LangXParser#prog}.
+	 * Visit a parse tree produced by {@link LangXParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitProg(LangXParser.ProgContext ctx);
+	T visitProgram(LangXParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code print}
-	 * labeled alternative in {@link LangXParser#stat}.
+	 * Visit a parse tree produced by {@link LangXParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrint(LangXParser.PrintContext ctx);
+	T visitStatement(LangXParser.StatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code read}
-	 * labeled alternative in {@link LangXParser#stat}.
+	 * Visit a parse tree produced by {@link LangXParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRead(LangXParser.ReadContext ctx);
+	T visitVariableDeclaration(LangXParser.VariableDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code assign}
-	 * labeled alternative in {@link LangXParser#stat}.
+	 * Visit a parse tree produced by {@link LangXParser#arrayDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAssign(LangXParser.AssignContext ctx);
+	T visitArrayDeclaration(LangXParser.ArrayDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code single0}
-	 * labeled alternative in {@link LangXParser#expr0}.
+	 * Visit a parse tree produced by {@link LangXParser#matrixDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSingle0(LangXParser.Single0Context ctx);
+	T visitMatrixDeclaration(LangXParser.MatrixDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code add}
-	 * labeled alternative in {@link LangXParser#expr0}.
+	 * Visit a parse tree produced by {@link LangXParser#assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAdd(LangXParser.AddContext ctx);
+	T visitAssignment(LangXParser.AssignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code sub}
-	 * labeled alternative in {@link LangXParser#expr0}.
+	 * Visit a parse tree produced by {@link LangXParser#ioStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSub(LangXParser.SubContext ctx);
+	T visitIoStatement(LangXParser.IoStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code single1}
-	 * labeled alternative in {@link LangXParser#expr1}.
+	 * Visit a parse tree produced by {@link LangXParser#expressionStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSingle1(LangXParser.Single1Context ctx);
+	T visitExpressionStatement(LangXParser.ExpressionStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code mult}
-	 * labeled alternative in {@link LangXParser#expr1}.
+	 * Visit a parse tree produced by {@link LangXParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMult(LangXParser.MultContext ctx);
+	T visitExpression(LangXParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code div}
-	 * labeled alternative in {@link LangXParser#expr1}.
+	 * Visit a parse tree produced by {@link LangXParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDiv(LangXParser.DivContext ctx);
+	T visitValue(LangXParser.ValueContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code idd}
-	 * labeled alternative in {@link LangXParser#expr2}.
+	 * Visit a parse tree produced by {@link LangXParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdd(LangXParser.IddContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code int}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitInt(LangXParser.IntContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code real}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitReal(LangXParser.RealContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code toint}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitToint(LangXParser.TointContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code toreal}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitToreal(LangXParser.TorealContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code par}
-	 * labeled alternative in {@link LangXParser#expr2}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPar(LangXParser.ParContext ctx);
+	T visitType(LangXParser.TypeContext ctx);
 }

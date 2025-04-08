@@ -1,206 +1,331 @@
 package org.example;
 
-import org.example.classes.LangXBaseListener;
+import org.example.classes.LangXBaseVisitor;
 import org.example.classes.LangXParser;
 
-import java.util.HashMap;
-import java.util.Stack;
+import java.util.*;
 
-enum VarType{ INT, REAL, UNKNOWN }
+public class LLVMActions extends LangXBaseVisitor<String> {
 
-class Value {
-    public String name;
-    public VarType type;
-    public Value( String name, VarType type ){
-        this.name = name;
-        this.type = type;
-    }
-}
-
-public class LLVMActions extends LangXBaseListener {
-
-    HashMap<String, Value> variables = new HashMap<String, Value>();
-    Stack<Value> stack = new Stack<Value>();
+    public final LLVMGenerator generator = new LLVMGenerator();
+    private final Map<String, String> variableTypes = new HashMap<>();
 
     @Override
-    public void exitAssign(LangXParser.AssignContext ctx) {
-        String ID = ctx.ID().getText();
-        Value v = stack.pop();
-        if(!variables.containsKey(ID) ) {
-            variables.put(ID, v);
-            if(v.type == VarType.INT){
-                LLVMGenerator.declare_i32(ID);
+    public String visitProgram(LangXParser.ProgramContext ctx) {
+        for (LangXParser.StatementContext stmt : ctx.statement()) {
+            visit(stmt);
+        }
+        return generator.getGeneratedCode();
+    }
+
+    @Override
+    public String visitVariableDeclaration(LangXParser.VariableDeclarationContext ctx) {
+        String varName = ctx.ID().getText();
+        String typeStr = ctx.type().getText();
+        String llvmType = generator.getLLVMType(typeStr);
+
+        List<String> validTypes = Arrays.asList("int", "float", "string", "Float32", "Float64");
+        if (!validTypes.contains(typeStr)) {
+            error(ctx.getStart().getLine(), "Invalid type: " + typeStr);
+        }
+
+        if (ctx.expression() != null && ctx.expression().getText().isEmpty()) {
+            error(ctx.getStart().getLine(), "Variable '" + varName + "' must be initialized.");
+        }
+
+        if (typeStr.equals("string") && ctx.expression() != null && !ctx.expression().getText().isEmpty()) {
+            error(ctx.getStart().getLine(), "Cannot assign a value to a string variable during declaration.");
+        }
+
+        generator.declareVariable(varName, llvmType);
+        variableTypes.put(varName, llvmType);
+
+        if (ctx.expression() != null) {
+            String valueReg = visit(ctx.expression());
+            generator.assignVariable(varName, valueReg);
+        }
+        return null;
+    }
+
+    @Override
+    public String visitAssignment(LangXParser.AssignmentContext ctx) {
+        String varName = ctx.ID().getText();
+        String targetType = variableTypes.getOrDefault(varName, "i32");
+
+        List<LangXParser.ExpressionContext> exprs = ctx.expression();
+        LangXParser.ExpressionContext valueExpr = exprs.get(exprs.size() - 1);
+
+        // Sprawdzenie, czy zmienna została zadeklarowana
+        if (!variableTypes.containsKey(varName)) {
+            error(ctx.getStart().getLine(), "Variable '" + varName + "' has not been declared.");
+        }
+
+        // Obsługa przypisania literału stringa
+        if (valueExpr.value() != null && valueExpr.value().STRING() != null) {
+            if (!targetType.equals("i8*")) {
+                error(ctx.getStart().getLine(), "Cannot assign string literal to non-string variable: " + varName);
             }
-            if(v.type == VarType.REAL){
-                LLVMGenerator.declare_double(ID);
+
+            String literalText = valueExpr.value().STRING().getText();
+            literalText = literalText.substring(1, literalText.length() - 1);
+
+            String label = generator.registerStringLiteral(literalText);
+            String destPtr = generator.newRegister();
+            generator.emit(destPtr + " = getelementptr [100 x i8], [100 x i8]* %" + varName + ", i32 0, i32 0");
+
+            int len = literalText.length() + 1;
+            String srcPtr = generator.newRegister();
+            generator.emit(srcPtr + " = getelementptr [" + len + " x i8], [" + len + " x i8]* " + label + ", i32 0, i32 0");
+
+            generator.emit("call void @llvm.memcpy.p0i8.p0i8.i64(i8* " + destPtr + ", i8* " + srcPtr + ", i64 " + len + ", i1 false)");
+            return null;
+        }
+
+        // Przypisanie wartości liczbowej
+        String valueReg = visit(valueExpr);
+        String sourceType = expressionType(valueExpr);
+
+        // Dodaj rzutowanie jeśli typy są różne
+        if (!targetType.equals(sourceType)) {
+            String casted = generator.newRegister();
+            valueReg = switch (targetType + " <- " + sourceType) {
+                case "float <- double" -> {
+                    generator.emit(casted + " = fptrunc double " + valueReg + " to float");
+                    yield casted;
+                }
+                case "double <- float" -> {
+                    generator.emit(casted + " = fpext float " + valueReg + " to double");
+                    yield casted;
+                }
+                case "float <- i32" -> {
+                    generator.emit(casted + " = sitofp i32 " + valueReg + " to float");
+                    yield casted;
+                }
+                case "double <- i32" -> {
+                    generator.emit(casted + " = sitofp i32 " + valueReg + " to double");
+                    yield casted;
+                }
+                default -> {
+                    error(ctx.getStart().getLine(), "Unsupported operation for type: " + targetType);
+                    yield null;
+                }
+            };
+        }
+
+        // Specjalna obsługa dla string
+        if (targetType.equals("i8*")) {
+            String destPtr = generator.newRegister();
+            generator.emit(destPtr + " = getelementptr [100 x i8], [100 x i8]* %" + varName + ", i32 0, i32 0");
+
+            String srcPtr = generator.newRegister();
+            generator.emit(srcPtr + " = getelementptr [100 x i8], [100 x i8]* %" + valueReg + ", i32 0, i32 0");
+
+            generator.emit("call void @llvm.memcpy.p0i8.p0i8.i64(i8* " + destPtr + ", i8* " + srcPtr + ", i64 100, i1 false)");
+        } else {
+            generator.assignVariable(varName, valueReg);
+        }
+
+        return null;
+    }
+
+
+    @Override
+    public String visitIoStatement(LangXParser.IoStatementContext ctx) {
+        if (ctx.getChildCount() != 4) {
+            error(ctx.getStart().getLine(), "Invalid format. Provide one variable inside brackets.");
+        }
+
+        if (ctx.READ() != null) {
+            String varName = ctx.ID().getText();
+            if (!variableTypes.containsKey(varName)) {
+                error(ctx.getStart().getLine(), "Variable '" + varName + "' has not been declared.");
             }
-        }
-        if(v.type == VarType.INT){
-            LLVMGenerator.assign_i32(ID, v.name);
-        }
-        if(v.type == VarType.REAL){
-            LLVMGenerator.assign_double(ID, v.name);
-        }
-    }
 
-    @Override
-    public void exitProg(LangXParser.ProgContext ctx) {
-        System.out.println( LLVMGenerator.generate() );
-    }
+            String type = variableTypes.getOrDefault(varName, "i32");
+            generator.emitRead(varName, type);
+        } else if (ctx.PRINT() != null) {
+            String valReg = visit(ctx.expression()); // Odwiedź wyrażenie
+            String valType = expressionType(ctx.expression());
 
-    @Override
-    public void exitInt(LangXParser.IntContext ctx) {
-        stack.push( new Value(ctx.INT().getText(), VarType.INT) );
-    }
-
-    @Override
-    public void exitReal(LangXParser.RealContext ctx) {
-        stack.push( new Value(ctx.REAL().getText(), VarType.REAL) );
-    }
-
-    @Override
-    public void exitIdd(LangXParser.IddContext ctx) {
-        if(ctx.ID() != null){
-            String ID = ctx.ID().getText();
-            if(variables.containsKey(ID)) {
-                Value v = variables.get(ID);
-                if(v.type == VarType.INT){
-                    LLVMGenerator.load_i32(ID);
+            if (ctx.expression().getChild(0) instanceof LangXParser.ValueContext valueContext) {
+                if (valueContext.ID() != null) {
+                    String varName = valueContext.ID().getText();
+                    if (!variableTypes.containsKey(varName)) {
+                        error(ctx.getStart().getLine(), "Variable '" + varName + "' has not been declared.");
+                    }
                 }
-                if(v.type == VarType.REAL){
-                    LLVMGenerator.load_double(ID);
-                }
-                stack.push(new Value("%"+(LLVMGenerator.reg-1), v.type));
+            }
+
+            generator.emitPrint(valReg, valType);
+        }
+        return null;
+    }
+
+    @Override
+    public String visitExpressionStatement(LangXParser.ExpressionStatementContext ctx) {
+        return visit(ctx.expression());
+    }
+
+    @Override
+    public String visitExpression(LangXParser.ExpressionContext ctx) {
+        // pojedyncza wartość
+        if (ctx.value() != null) {
+            return visit(ctx.value());
+        }
+
+        // wyrażenie unarne (NEG)
+        if (ctx.expression().size() == 1 && ctx.NEG() != null) {
+            String valReg = visit(ctx.expression(0));
+            String type = expressionType(ctx.expression(0));
+
+            String resultReg = generator.newRegister();
+            if (type.equals("double")) {
+                generator.emit(resultReg + " = fsub double 0.0, " + valReg);
+            } else if (type.equals("float")) {
+                generator.emit(resultReg + " = fsub float 0.0, " + valReg);
             } else {
-                error(ctx.getStart().getLine(), "unknown variable " +ID);
+                generator.emit(resultReg + " = sub i32 0, " + valReg);
             }
-        }
-    }
-
-    @Override
-    public void exitAdd(LangXParser.AddContext ctx) {
-        Value v1 = stack.pop();
-        Value v2 = stack.pop();
-
-        if(v1.type == v2.type) {
-            if(v1.type == VarType.INT){
-                LLVMGenerator.add_i32(v1.name, v2.name);
-                stack.push( new Value("%"+(LLVMGenerator.reg-1), VarType.INT) );
-            }
-            if(v1.type == VarType.REAL){
-                LLVMGenerator.add_double(v1.name, v2.name);
-                stack.push( new Value("%"+(LLVMGenerator.reg-1), VarType.REAL) );
-            }
-        } else {
-            error(ctx.getStart().getLine(), "add type mismatch");
-        }
-    }
-
-    @Override
-    public void exitSub(LangXParser.SubContext ctx) {
-        Value v1 = stack.pop();
-        Value v2 = stack.pop();
-        if (v1.type == v2.type) {
-            if (v1.type == VarType.INT) {
-                LLVMGenerator.sub_i32(v2.name, v1.name);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.INT));
-            }
-            if (v1.type == VarType.REAL) {
-                LLVMGenerator.sub_double(v2.name, v1.name);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.REAL));
-            }
-        } else {
-            error(ctx.getStart().getLine(), "subtraction type mismatch");
-        }
-    }
-
-    @Override
-    public void exitMult(LangXParser.MultContext ctx) {
-        Value v1 = stack.pop();
-        Value v2 = stack.pop();
-        if(v1.type == v2.type) {
-            if(v1.type == VarType.INT){
-                LLVMGenerator.mult_i32(v1.name, v2.name);
-                stack.push( new Value("%"+(LLVMGenerator.reg-1), VarType.INT) );
-            }
-            if(v1.type == VarType.REAL){
-                LLVMGenerator.mult_double(v1.name, v2.name);
-                stack.push( new Value("%"+(LLVMGenerator.reg-1), VarType.REAL) );
-            }
-        } else {
-            error(ctx.getStart().getLine(), "mult type mismatch");
-        }
-    }
-
-    @Override
-    public void exitDiv(LangXParser.DivContext ctx) {
-        Value v1 = stack.pop();
-        Value v2 = stack.pop();
-
-        // division by zero
-        if ((v1.type == VarType.INT && Integer.parseInt(v1.name) == 0) || (v1.type == VarType.REAL && Double.parseDouble(v1.name) == 0.0)) {
-            error(ctx.getStart().getLine(), "division by zero");
-            return;
+            return resultReg;
         }
 
-        if (v1.type == v2.type) {
-            if (v1.type == VarType.INT) {
-                LLVMGenerator.div_i32(v2.name, v1.name);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.INT));
-            }
-            if (v1.type == VarType.REAL) {
-                LLVMGenerator.div_double(v2.name, v1.name);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.REAL));
-            }
-        } else {
-            error(ctx.getStart().getLine(), "division type mismatch");
-        }
-    }
+        // wyrażenie binarne (np. a + b)
+        if (ctx.expression().size() == 2) {
+            String left = visit(ctx.expression(0));
+            String right = visit(ctx.expression(1));
+            String op = ctx.op.getText();
 
-    @Override
-    public void exitToint(LangXParser.TointContext ctx) {
-        Value v = stack.pop();
-        LLVMGenerator.fptosi( v.name );
-        stack.push( new Value("%"+(LLVMGenerator.reg-1), VarType.INT) );
-    }
+            String typeLeft = expressionType(ctx.expression(0));
+            String typeRight = expressionType(ctx.expression(1));
+            String resultType = dominantType(ctx.expression(0), ctx.expression(1));
 
-    @Override
-    public void exitToreal(LangXParser.TorealContext ctx) {
-        Value v = stack.pop();
-        LLVMGenerator.sitofp( v.name );
-        stack.push( new Value("%"+(LLVMGenerator.reg-1), VarType.REAL) );
-    }
-
-    @Override
-    public void exitRead(LangXParser.ReadContext ctx) {
-        String ID = ctx.ID().getText();
-        if(!variables.containsKey(ID)) {
-            variables.put(ID, new Value("%"+(LLVMGenerator.reg-1), VarType.INT));
-            LLVMGenerator.declare_i32(ID);
-        }
-        LLVMGenerator.scanf_i32(ID);
-    }
-
-    @Override
-    public void exitPrint(LangXParser.PrintContext ctx) {
-        String ID = ctx.ID().getText();
-        if(variables.containsKey(ID) ) {
-            Value v = variables.get( ID );
-            if( v.type != null ) {
-                if(v.type == VarType.INT){
-                    LLVMGenerator.printf_i32(ID);
-                }
-                if(v.type == VarType.REAL ){
-                    LLVMGenerator.printf_double(ID);
+            // 🧠 Rzutowanie operandów jeśli są różnych typów
+            if (!typeLeft.equals(typeRight)) {
+                if (typeLeft.equals("float") && typeRight.equals("double")) {
+                    String castedLeft = generator.newRegister();
+                    generator.emit(castedLeft + " = fpext float " + left + " to double");
+                    left = castedLeft;
+                } else if (typeLeft.equals("double") && typeRight.equals("float")) {
+                    String castedRight = generator.newRegister();
+                    generator.emit(castedRight + " = fpext float " + right + " to double");
+                    right = castedRight;
+                } else if (typeLeft.equals("i32") && (typeRight.equals("float") || typeRight.equals("double"))) {
+                    String castedLeft = generator.newRegister();
+                    generator.emit(castedLeft + " = sitofp i32 " + left + " to " + typeRight);
+                    left = castedLeft;
+                } else if (typeRight.equals("i32") && (typeLeft.equals("float") || typeLeft.equals("double"))) {
+                    String castedRight = generator.newRegister();
+                    generator.emit(castedRight + " = sitofp i32 " + right + " to " + typeLeft);
+                    right = castedRight;
                 }
             }
-        } else {
-            error(ctx.getStart().getLine(), "unknown variable " +ID);
+
+            String resultReg = generator.newRegister();
+            if (resultType.equals("double") || resultType.equals("float")) {
+                String llvmOp = switch (op) {
+                    case "+" -> "fadd";
+                    case "-" -> "fsub";
+                    case "*" -> "fmul";
+                    case "/" -> "fdiv";
+                    default -> {
+                        error(ctx.getStart().getLine(), "Unsupported operator: " + op);
+                        yield null;
+                    }
+                };
+                generator.emit(resultReg + " = " + llvmOp + " " + resultType + " " + left + ", " + right);
+            } else {
+                String llvmOp = switch (op) {
+                    case "+" -> "add";
+                    case "-" -> "sub";
+                    case "*" -> "mul";
+                    case "/" -> "sdiv";
+                    default -> {
+                        error(ctx.getStart().getLine(), "Unsupported operator: " + op);
+                        yield null;
+                    }
+                };
+                generator.emit(resultReg + " = " + llvmOp + " i32 " + left + ", " + right);
+            }
+
+            return resultReg;
         }
+
+        // nawiasy
+        if (ctx.expression().size() == 1) {
+            return visit(ctx.expression(0));
+        }
+
+        return null;
     }
 
-    void error(int line, String msg){
-        System.err.println("Error, line "+line+", "+msg);
+
+    @Override
+    public String visitValue(LangXParser.ValueContext ctx) {
+        if (ctx.INT() != null) {
+            String reg = generator.newRegister();
+            generator.emit(reg + " = add i32 0, " + ctx.INT().getText());
+            return reg;
+        } else if (ctx.FLOAT() != null) {
+            // Domyślnie zakładamy, że FLOAT literał to double (Float64)
+            String reg = generator.newRegister();
+            generator.emit(reg + " = fadd double 0.0, " + ctx.FLOAT().getText());
+            return reg;
+        } else if (ctx.ID() != null) {
+            String varName = ctx.ID().getText();
+            String type = variableTypes.getOrDefault(varName, "i32");
+
+            if (type.equals("i8*")) {
+                // Dla stringa — nie ładujemy, tylko zwracamy nazwę
+                return varName;
+            } else {
+                String reg = generator.newRegister();
+                generator.emit(reg + " = load " + type + ", " + type + "* %" + varName);
+                return reg;
+            }
+        } else if (ctx.STRING() != null) {
+            // Na razie tylko komentarz — można dodać print("text") później
+            generator.emit("; string literal (not yet supported): " + ctx.STRING().getText());
+            return "null";
+        }
+
+        return null;
+    }
+
+
+
+
+    public String getLLVM() {
+        return generator.getGeneratedCode();
+    }
+
+    private String expressionType(LangXParser.ExpressionContext ctx) {
+        if (ctx.value() != null) {
+            LangXParser.ValueContext v = ctx.value();
+            if (v.FLOAT() != null) return "double";
+            if (v.INT() != null) return "i32";
+            if (v.ID() != null) {
+                return variableTypes.getOrDefault(v.ID().getText(), "i32");
+            }
+        }
+        if (ctx.expression().size() == 2) {
+            return dominantType(ctx.expression(0), ctx.expression(1));
+        }
+        if (ctx.expression().size() == 1) {
+            return expressionType(ctx.expression(0));
+        }
+        return "i32";
+    }
+
+    private String dominantType(LangXParser.ExpressionContext a, LangXParser.ExpressionContext b) {
+        String t1 = expressionType(a);
+        String t2 = expressionType(b);
+        if (t1.equals("double") || t2.equals("double")) return "double";
+        if (t1.equals("float") || t2.equals("float")) return "float";
+        return "i32";
+    }
+
+    void error(int line, String msg) {
+        System.err.println("Error, line " + line + ", " + msg);
         System.exit(1);
     }
 

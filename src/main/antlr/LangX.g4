@@ -1,52 +1,82 @@
 grammar LangX;
 
-prog: ( stat? NEWLINE )* ;
+// Parser rules
 
-stat:   PRINT ID   		    #print
-	  | READ ID               #read
-	  | ID '=' expr0		#assign
-;
+program : statement* EOF;
 
-expr0:  expr1			#single0
-      | expr1 ADD expr1	#add
-      | expr1 SUB expr1 #sub
-;
+statement
+    : variableDeclaration ';'
+    | assignment ';'
+    | ioStatement ';'
+    | expressionStatement ';'
+    ;
 
-expr1:  expr2			    #single1
-      | expr2 MULT expr2	#mult
-      | expr2 DIV expr2     #div
-;
+variableDeclaration
+    : type ID ('=' expression)?
+    ;
 
-expr2: ID               #idd
-       | INT			#int
-       | REAL			#real
-       | TOINT expr2		#toint
-       | TOREAL expr2		#toreal
-       | '(' expr0 ')'		#par
-;
+assignment
+    : ID '=' expression
+    ;
 
-PRINT: 'print';
+ioStatement
+    : READ '(' ID ')'
+    | PRINT '(' expression ')'
+    ;
 
-READ: 'read';
+expressionStatement
+    : expression
+    ;
 
-TOINT: '(int)';
+expression
+    : '(' expression ')'
+    | NEG expression
+    | expression op=(MUL | DIV) expression
+    | expression op=(ADD | SUB) expression
+    | expression op=(AND | OR | XOR) expression
+    | value
+    ;
 
-TOREAL: '(real)';
+value
+    : INT
+    | FLOAT
+    | STRING
+    | BOOL
+    | ID
+    ;
 
-ID: ('a'..'z'|'A'..'Z')+;
+type
+    : 'int'
+    | 'float'        // może jako alias Float64
+    | 'Float32'
+    | 'Float64'
+    | 'bool'
+    | 'string'
+    ;
 
-REAL: '0'..'9'+'.''0'..'9'+;
 
-INT: '0'..'9'+;
+// Lexer rules
 
-ADD: '+';
 
-SUB: '-';
+ADD : '+' ;
+SUB : '-' ;
+MUL : '*' ;
+DIV : '/' ;
 
-MULT: '*';
+AND : 'AND' ;
+OR  : 'OR' ;
+XOR : 'XOR' ;
+NEG : 'NEG' ;
 
-DIV: '/' ;
+READ  : 'read' ;
+PRINT : 'print' ;
 
-NEWLINE: '\r'? '\n';
+INT    : [0-9]+ ;
+FLOAT  : [0-9]+ '.' [0-9]+ ;
+STRING : '"' (~["\\] | '\\' .)* '"' ;
 
-WS: (' '|'\t')+ { skip(); };
+BOOL : 'true' | 'false' ;
+
+ID : [a-zA-Z_][a-zA-Z0-9_]* ;
+
+WS : [ \t\r\n]+ -> skip ;

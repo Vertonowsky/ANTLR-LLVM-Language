@@ -1,8 +1,16 @@
-x = (real)(1+1)*2.1
+int i;
+Float32 f;
+Float64 d;
+i = 3;
+f = i + 1.5;
+d = f + 2;
+print(d);
 
-print x
 
-a = (10*3)+2
-b = a + 4 / 4
+string imie;
+imie = "Bartek";
+print(imie);
 
-print b
+string nazwisko;
+read(nazwisko);
+print(nazwisko);

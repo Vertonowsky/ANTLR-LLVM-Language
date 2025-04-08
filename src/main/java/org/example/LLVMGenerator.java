@@ -1,132 +1,180 @@
 package org.example;
 
-class LLVMGenerator{
+import java.util.*;
 
-   static String header_text = "";
-   static String main_text = "";
-   static int reg = 1;
+public class LLVMGenerator {
+   private int reg = 1;
+   private StringBuilder code = new StringBuilder();
+   private int labelCount = 0;
+   private final Map<String, String> symbolTable = new HashMap<>();
+   private final Map<String, String> stringLiterals = new LinkedHashMap<>();
+   private int strLiteralCount = 0;
 
-   static void printf_i32(String id){
-      main_text += "%"+reg+" = load i32, i32* %"+id+"\n";
-      reg++;
-      main_text += "%"+reg+" = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @strpi, i32 0, i32 0), i32 %"+(reg-1)+")\n";
-      reg++;
+
+   public String newRegister() {
+      return "%" + reg++;
    }
 
-   static void printf_double(String id){
-      main_text += "%"+reg+" = load double, double* %"+id+"\n";
-      reg++;
-      main_text += "%"+reg+" = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @strpd, i32 0, i32 0), double %"+(reg-1)+")\n";
-      reg++;
+   public String newLabel() {
+      return "%L" + (labelCount++);
    }
 
-   static void scanf_i32(String id){
-      main_text += "%"+reg+" = call i32 (i8*, ...) @scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @strs, i32 0, i32 0), i32* %"+id+")\n";
-      reg++;
-   }
-
-   static void scanf_double(String id) {
-      main_text += "%" + reg + " = call double (i8*, ...) @scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @strs, i32 0, i32 1), double* %" + id + ")\n";
-      reg++;
-   }
-
-   static void declare_i32(String id){
-      main_text += "%"+id+" = alloca i32\n";
-   }
-
-   static void declare_double(String id){
-      main_text += "%"+id+" = alloca double\n";
-   }
-
-   static void assign_i32(String id, String value){
-      main_text += "store i32 "+value+", i32* %"+id+"\n";
-   }
-
-   static void assign_double(String id, String value){
-      main_text += "store double "+value+", double* %"+id+"\n";
+   public String getLLVMType(String langxType) {
+      return switch (langxType) {
+         case "int" -> "i32";
+         case "float", "Float64" -> "double";  // alias
+         case "Float32" -> "float";
+         case "bool" -> "i1";
+         case "string" -> "i8*";
+         default -> throw new RuntimeException("Unknown type: " + langxType);
+      };
    }
 
 
-   static void load_i32(String id){
-      main_text += "%"+reg+" = load i32, i32* %"+id+"\n";
-      reg++;
-   }
-
-   static void load_double(String id){
-      main_text += "%"+reg+" = load double, double* %"+id+"\n";
-      reg++;
-   }
-
-   static void add_i32(String val1, String val2){
-      main_text += "%"+reg+" = add i32 "+val1+", "+val2+"\n";
-      reg++;
-   }
-
-   static void add_double(String val1, String val2){
-      main_text += "%"+reg+" = fadd double "+val1+", "+val2+"\n";
-      reg++;
-   }
-
-   static void sub_i32(String val1, String val2) {
-      main_text += "%" + reg + " = sub i32 " + val1 + ", " + val2 + "\n";
-      reg++;
-   }
-
-   static void sub_double(String val1, String val2) {
-      main_text += "%" + reg + " = fsub double " + val1 + ", " + val2 + "\n";
-      reg++;
-   }
-
-   static void mult_i32(String val1, String val2){
-      main_text += "%"+reg+" = mul i32 "+val1+", "+val2+"\n";
-      reg++;
-   }
-
-   static void mult_double(String val1, String val2){
-      main_text += "%"+reg+" = fmul double "+val1+", "+val2+"\n";
-      reg++;
-   }
-
-   static void div_i32(String val1, String val2) {
-      main_text += "%" + reg + " = sdiv i32 " + val1 + ", " + val2 + "\n";
-      reg++;
-   }
-
-   static void div_double(String val1, String val2) {
-      main_text += "%" + reg + " = fdiv double " + val1 + ", " + val2 + "\n";
-      reg++;
-   }
-
-   static void sitofp(String id){
-      main_text += "%"+reg+" = sitofp i32 "+id+" to double\n";
-      reg++;
-   }
-
-   static void fptosi(String id){
-      main_text += "%"+reg+" = fptosi double "+id+" to i32\n";
-      reg++;
+   public void declareVariable(String name, String type) {
+      symbolTable.put(name, type);
+      if (type.equals("i8*")) {
+         emit("%" + name + " = alloca [100 x i8], align 1");
+      } else if (type.equals("float")) {
+         emit("%" + name + " = alloca float, align " + getAlignment(type)); // float ma 4 bajty
+      } else if (type.equals("double")) {
+         emit("%" + name + " = alloca double, align " + getAlignment(type)); // double ma 8 bajtów
+      } else {
+         emit("%" + name + " = alloca " + type + ", align " + getAlignment(type));
+      }
    }
 
 
-   static String generate(){
-      String text = "";
-      text += "declare i32 @printf(i8*, ...)\n";
-      text += "declare i32 @sprintf(i8*, i8*, ...)\n";
-      text += "declare i8* @strcpy(i8*, i8*)\n";
-      text += "declare i8* @strcat(i8*, i8*)\n";
-      text += "declare i32 @atoi(i8*)\n";
-      text += "declare i32 @scanf(i8*, ...)\n";
-      text += "declare void @llvm.memcpy.p0i8.p0i8.i64(i8* noalias nocapture writeonly, i8* noalias nocapture readonly, i64, i1 immarg)\n";
-      text += "@strps = constant [4 x i8] c\"%s\\0A\\00\"\n";
-      text += "@strpi = constant [4 x i8] c\"%d\\0A\\00\"\n";
-      text += "@strpd = constant [4 x i8] c\"%f\\0A\\00\"\n";
-      text += "@strs = constant [5 x i8] c\"%10s\\00\"\n";
-      text += "@strspi = constant [3 x i8] c\"%d\\00\"\n";
-      text += header_text;
-      text += "define i32 @main() nounwind{\n";
-      text += main_text;
-      text += "ret i32 0 }\n";
-      return text;
+   public void assignVariable(String name, String valueReg) {
+      String type = symbolTable.get(name);
+      emit("store " + type + " " + valueReg + ", " + type + "* %" + name);
    }
+
+   public void emit(String line) {
+      code.append(line).append("\n");
+   }
+
+
+   public String getGeneratedCode() {
+      StringBuilder all = new StringBuilder();
+      all.append("; ModuleID = 'langx'\n");
+
+      // Literals
+      for (String literal : stringLiterals.values()) {
+         all.append(literal).append("\n");
+      }
+
+      all.append(code);
+      return all.toString();
+   }
+
+
+   private int getAlignment(String type) {
+      return switch (type) {
+         case "i32" -> 4;
+         case "i1" -> 1;
+         case "float" -> 4;
+         case "double" -> 8;
+         case "i8*" -> 8;
+         default -> 4;
+      };
+   }
+
+
+   public void startModule() {
+      emit("; ModuleID = 'langx'");
+      emit("declare void @llvm.memcpy.p0i8.p0i8.i64(i8*, i8*, i64, i1)");
+
+
+      emit("@.intFormat = private constant [4 x i8] c\"%d\\0A\\00\"");
+      emit("@.floatFormat = private constant [7 x i8] c\"%.10f\\0A\\00\"");
+      emit("@.stringFormat = private constant [4 x i8] c\"%s\\0A\\00\"");
+
+      emit("@.intRead = private constant [3 x i8] c\"%d\\00\"");
+      emit("@.floatRead = private constant [4 x i8] c\"%lf\\00\"");
+      emit("@.stringRead = private constant [3 x i8] c\"%s\\00\"");
+
+      emit("declare i32 @printf(i8*, ...)");
+      emit("declare i32 @scanf(i8*, ...)");
+      emit("define i32 @main() {");
+   }
+
+
+   public void endModule() {
+      emit("ret i32 0");
+      emit("}");
+   }
+
+   public void emitPrint(String reg, String type) {
+      String formatLabel = switch (type) {
+         case "i32" -> "@.intFormat";
+         case "float", "double" -> "@.floatFormat";
+         case "i8*" -> "@.stringFormat";
+         default -> throw new RuntimeException("Unknown type: " + type);
+      };
+
+      if (type.equals("i8*")) {
+         String cleanReg = reg.startsWith("%") ? reg.substring(1) : reg;
+         String strPtr = newRegister();
+         emit(strPtr + " = getelementptr [100 x i8], [100 x i8]* %" + cleanReg + ", i32 0, i32 0");
+         String strPtr2 = newRegister();
+         emit(strPtr2 + " = call i32 (i8*, ...) @printf(i8* getelementptr " +
+                 "([4 x i8], [4 x i8]* " + formatLabel + ", i32 0, i32 0), i8* " + strPtr + ")");
+      } else {
+         String cleanReg = reg.startsWith("%") ? reg.substring(1) : reg;
+         String strPtr = newRegister();
+         emit(strPtr + " = call i32 (i8*, ...) @printf(i8* getelementptr " +
+                 "([4 x i8], [4 x i8]* " + formatLabel + ", i32 0, i32 0), " + type + " %" + cleanReg + ")");
+      }
+   }
+
+   public void emitRead(String varName, String type) {
+      String formatLabel = switch (type) {
+         case "i32" -> "@.intRead";
+         case "double" -> "@.floatRead";
+         case "i8*" -> "@.stringRead";
+         default -> throw new RuntimeException("Unsupported type: " + type);
+      };
+
+      String labelSize = switch (type) {
+         case "i32", "i8*" -> "[3 x i8]";
+         case "double" -> "[4 x i8]";
+         default -> "[3 x i8]";
+      };
+
+      if (type.equals("i8*")) {
+         // 🟢 1. ZACHOWAJ KOLEJNOŚĆ REJESTRÓW
+         String strPtr = newRegister(); // %1
+         String callReg = newRegister(); // %2
+
+         // 🟢 2. EMITUJ W TEJ SAMEJ KOLEJNOŚCI
+         emit(strPtr + " = getelementptr [100 x i8], [100 x i8]* %" + varName + ", i32 0, i32 0");
+         emit(callReg + " = call i32 (i8*, ...) @scanf(i8* getelementptr (" +
+                 labelSize + ", " + labelSize + "* " + formatLabel + ", i32 0, i32 0), i8* " + strPtr + ")");
+      } else {
+         String callReg = newRegister();
+         String pointerType = type + "*";
+         emit(callReg + " = call i32 (i8*, ...) @scanf(i8* getelementptr (" +
+                 labelSize + ", " + labelSize + "* " + formatLabel + ", i32 0, i32 0), " + pointerType + " %" + varName + ")");
+      }
+   }
+
+   public String registerStringLiteral(String text) {
+      if (stringLiterals.containsKey(text)) {
+         return stringLiterals.get(text);
+      }
+
+      String label = "@.str" + strLiteralCount++;
+      String escaped = text
+              .replace("\\", "\\5C")
+              .replace("\"", "\\22")
+              .replace("\n", "\\0A");
+
+      int len = text.length() + 1; // +1 for \00
+      String llvmLiteral = label + " = private constant [" + len + " x i8] c\"" + escaped + "\\00\"";
+      stringLiterals.put(text, llvmLiteral);
+      return label;
+   }
+
 
 }
