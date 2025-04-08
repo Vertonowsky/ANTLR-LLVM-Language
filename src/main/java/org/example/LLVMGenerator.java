@@ -16,7 +16,7 @@ public class LLVMGenerator {
    }
 
    public String newLabel() {
-      return "%L" + (labelCount++);
+      return "L" + (labelCount++);
    }
 
    public String getLLVMType(String langxType) {
@@ -93,6 +93,15 @@ public class LLVMGenerator {
       emit("@.intRead = private constant [3 x i8] c\"%d\\00\"");
       emit("@.floatRead = private constant [4 x i8] c\"%lf\\00\"");
       emit("@.stringRead = private constant [3 x i8] c\"%s\\00\"");
+
+      emit("@.divzero_msg = private unnamed_addr constant [22 x i8] c\"Error: divide by zero\\00\"");
+      emit("declare void @puts(i8*)");
+      emit("declare void @exit(i32)");
+
+      emit("define void @print_error(i8* %message) {");
+      emit("    call i32 @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.stringFormat, i32 0, i32 0), i8* %message)");
+      emit("    ret void");
+      emit("}");
 
       emit("declare i32 @printf(i8*, ...)");
       emit("declare i32 @scanf(i8*, ...)");

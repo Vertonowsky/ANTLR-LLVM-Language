@@ -6,6 +6,8 @@ f = i + 1.5;
 d = f + 2;
 print(d);
 
+int a = (8+3*(2-4))/2;
+print(a);
 
 string imie;
 imie = "Bartek";

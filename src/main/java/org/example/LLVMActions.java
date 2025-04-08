@@ -199,7 +199,7 @@ public class LLVMActions extends LangXBaseVisitor<String> {
             String typeRight = expressionType(ctx.expression(1));
             String resultType = dominantType(ctx.expression(0), ctx.expression(1));
 
-            // 🧠 Rzutowanie operandów jeśli są różnych typów
+            // Rzutowanie operandów jeśli są różnych typów
             if (!typeLeft.equals(typeRight)) {
                 if (typeLeft.equals("float") && typeRight.equals("double")) {
                     String castedLeft = generator.newRegister();
@@ -218,6 +218,27 @@ public class LLVMActions extends LangXBaseVisitor<String> {
                     generator.emit(castedRight + " = sitofp i32 " + right + " to " + typeLeft);
                     right = castedRight;
                 }
+            }
+
+            if (op.equals("/") && resultType.equals("i32")) {
+                String isZero = generator.newRegister();
+                generator.emit(isZero + " = icmp eq i32 " + right + ", 0");
+
+                String thenLabel = generator.newLabel();
+                String endLabel = generator.newLabel();
+
+                // Jeśli dzielnik jest zerem, to obsługuję błąd
+                generator.emit("br i1 " + isZero + ", label %" + thenLabel + ", label %" + endLabel);
+
+                // jeśli dzielnik to zero
+                generator.emit(thenLabel + ":");
+                generator.emit("call void @print_error(i8* getelementptr ([22 x i8], [22 x i8]* @.divzero_msg, i32 0, i32 0))");
+                generator.emit("call void @exit(i32 1)");
+                generator.emit("br label %" + endLabel);
+
+                // jeśli dzielnik nie jest zerem
+                generator.emit(endLabel + ":");
+                generator.emit("; continue division");
             }
 
             String resultReg = generator.newRegister();
