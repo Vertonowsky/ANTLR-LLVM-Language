@@ -173,22 +173,6 @@ public class LLVMActions extends LangXBaseVisitor<String> {
             return visit(ctx.value());
         }
 
-        // wyrażenie unarne (NEG)
-        if (ctx.expression().size() == 1 && ctx.NEG() != null) {
-            String valReg = visit(ctx.expression(0));
-            String type = expressionType(ctx.expression(0));
-
-            String resultReg = generator.newRegister();
-            if (type.equals("double")) {
-                generator.emit(resultReg + " = fsub double 0.0, " + valReg);
-            } else if (type.equals("float")) {
-                generator.emit(resultReg + " = fsub float 0.0, " + valReg);
-            } else {
-                generator.emit(resultReg + " = sub i32 0, " + valReg);
-            }
-            return resultReg;
-        }
-
         // wyrażenie binarne (np. a + b)
         if (ctx.expression().size() == 2) {
             String left = visit(ctx.expression(0));

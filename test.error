@@ -4,10 +4,10 @@ int = 8;
 
 int a = 8
 
-int a = 2/0;
+int a = 2 / 0;
 print(a);
 
-int b = 2/(1-1);
+int b = 2 / (1 - 1);
 print(b);
 
 print(a;
@@ -27,3 +27,6 @@ int z = a&z;
 string nazwa = "COLA";
 
 firma = "COLA";
+
+int z = 9;
+z = -z;

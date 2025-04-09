@@ -38,26 +38,6 @@ public interface LangXListener extends ParseTreeListener {
 	 */
 	void exitVariableDeclaration(LangXParser.VariableDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LangXParser#arrayDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterArrayDeclaration(LangXParser.ArrayDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LangXParser#arrayDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitArrayDeclaration(LangXParser.ArrayDeclarationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link LangXParser#matrixDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterMatrixDeclaration(LangXParser.MatrixDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LangXParser#matrixDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitMatrixDeclaration(LangXParser.MatrixDeclarationContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link LangXParser#assignment}.
 	 * @param ctx the parse tree
 	 */

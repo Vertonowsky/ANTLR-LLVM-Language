@@ -21,7 +21,7 @@ define i32 @main() {
 %i = alloca i32, align 4
 %f = alloca float, align 4
 %d = alloca double, align 8
-%1 = add i32 0, 3
+%1 = add i32 0, -3
 store i32 %1, i32* %i
 %2 = load i32, i32* %i
 %3 = fadd double 0.0, 1.5
@@ -58,16 +58,27 @@ L1:
 store i32 %23, i32* %a
 %24 = load i32, i32* %a
 %25 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.intFormat, i32 0, i32 0), i32 %24)
+%26 = load i32, i32* %a
+%27 = add i32 0, -1
+%28 = mul i32 %26, %27
+store i32 %28, i32* %a
+%29 = load i32, i32* %a
+%30 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.intFormat, i32 0, i32 0), i32 %29)
 %imie = alloca [100 x i8], align 1
-%26 = getelementptr [100 x i8], [100 x i8]* %imie, i32 0, i32 0
-%27 = getelementptr [7 x i8], [7 x i8]* @.str0, i32 0, i32 0
-call void @llvm.memcpy.p0i8.p0i8.i64(i8* %26, i8* %27, i64 7, i1 false)
-%28 = getelementptr [100 x i8], [100 x i8]* %imie, i32 0, i32 0
-%29 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.stringFormat, i32 0, i32 0), i8* %28)
+%31 = getelementptr [100 x i8], [100 x i8]* %imie, i32 0, i32 0
+%32 = getelementptr [7 x i8], [7 x i8]* @.str0, i32 0, i32 0
+call void @llvm.memcpy.p0i8.p0i8.i64(i8* %31, i8* %32, i64 7, i1 false)
+%33 = getelementptr [100 x i8], [100 x i8]* %imie, i32 0, i32 0
+%34 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.stringFormat, i32 0, i32 0), i8* %33)
 %nazwisko = alloca [100 x i8], align 1
-%30 = getelementptr [100 x i8], [100 x i8]* %nazwisko, i32 0, i32 0
-%31 = call i32 (i8*, ...) @scanf(i8* getelementptr ([3 x i8], [3 x i8]* @.stringRead, i32 0, i32 0), i8* %30)
-%32 = getelementptr [100 x i8], [100 x i8]* %nazwisko, i32 0, i32 0
-%33 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.stringFormat, i32 0, i32 0), i8* %32)
+%35 = getelementptr [100 x i8], [100 x i8]* %nazwisko, i32 0, i32 0
+%36 = call i32 (i8*, ...) @scanf(i8* getelementptr ([3 x i8], [3 x i8]* @.stringRead, i32 0, i32 0), i8* %35)
+%37 = getelementptr [100 x i8], [100 x i8]* %nazwisko, i32 0, i32 0
+%38 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.stringFormat, i32 0, i32 0), i8* %37)
+%ss = alloca float, align 4
+%39 = fadd double 0.0, 2.222
+store float %39, float* %ss
+%40 = load float, float* %ss
+%41 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.floatFormat, i32 0, i32 0), float %40)
 ret i32 0
 }

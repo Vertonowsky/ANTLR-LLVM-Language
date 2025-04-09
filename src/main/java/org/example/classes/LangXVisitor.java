@@ -29,18 +29,6 @@ public interface LangXVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariableDeclaration(LangXParser.VariableDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LangXParser#arrayDeclaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayDeclaration(LangXParser.ArrayDeclarationContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link LangXParser#matrixDeclaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMatrixDeclaration(LangXParser.MatrixDeclarationContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link LangXParser#assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

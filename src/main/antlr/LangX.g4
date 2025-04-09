@@ -17,6 +17,8 @@ variableDeclaration
 
 assignment
     : ID '=' expression
+    | ID '[' expression ']' '=' expression
+    | ID '[' expression ']' '[' expression ']' '=' expression
     ;
 
 ioStatement
@@ -29,25 +31,26 @@ expressionStatement
     ;
 
 expression
-    : arithmeticExpression
-    | STRING
-    | ID
+    : '(' expression ')'
+    | expression op=(MUL | DIV) expression
+    | expression op=(ADD | SUB) expression
+    | value
     ;
 
-arithmeticExpression
-    : '(' arithmeticExpression ')'
-    | arithmeticExpression op=(MUL | DIV) arithmeticExpression
-    | arithmeticExpression op=(ADD | SUB) arithmeticExpression
-    | INT
+value
+    : INT
     | FLOAT
+    | STRING
+    | BOOL
     | ID
     ;
 
 type
     : 'int'
-    | 'float'        // alias for Float64
+    | 'float'        // może jako alias Float64
     | 'Float32'
     | 'Float64'
+    | 'bool'
     | 'string'
     ;
 
@@ -59,12 +62,19 @@ SUB : '-' ;
 MUL : '*' ;
 DIV : '/' ;
 
+AND : 'AND' ;
+OR  : 'OR' ;
+XOR : 'XOR' ;
+NEG : 'NEG' ;
+
 READ  : 'read' ;
 PRINT : 'print' ;
 
-INT    : [0-9]+ ;
-FLOAT  : [0-9]+ '.' [0-9]+ ;
+INT    : '-'? [0-9]+ ;
+FLOAT  : '-'? [0-9]+ '.' [0-9]+ ;
 STRING : '"' (~["\\] | '\\' .)* '"' ;
+
+BOOL : 'true' | 'false' ;
 
 ID : [a-zA-Z_][a-zA-Z0-9_]* ;
 
