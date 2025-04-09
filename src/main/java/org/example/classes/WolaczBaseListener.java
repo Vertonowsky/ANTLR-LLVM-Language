@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bartek/IdeaProjects/wolacz/src/main/antlr/LangX.g4 by ANTLR 4.13.2
+// Generated from C:/Users/Bartek/IdeaProjects/wolacz/src/main/antlr/Wolacz.g4 by ANTLR 4.13.2
 package org.example.classes;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -6,120 +6,120 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * This class provides an empty implementation of {@link LangXListener},
+ * This class provides an empty implementation of {@link WolaczListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
 @SuppressWarnings("CheckReturnValue")
-public class LangXBaseListener implements LangXListener {
+public class WolaczBaseListener implements WolaczListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterProgram(LangXParser.ProgramContext ctx) { }
+	@Override public void enterProgram(WolaczParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitProgram(LangXParser.ProgramContext ctx) { }
+	@Override public void exitProgram(WolaczParser.ProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatement(LangXParser.StatementContext ctx) { }
+	@Override public void enterStatement(WolaczParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatement(LangXParser.StatementContext ctx) { }
+	@Override public void exitStatement(WolaczParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVariableDeclaration(LangXParser.VariableDeclarationContext ctx) { }
+	@Override public void enterVariableDeclaration(WolaczParser.VariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVariableDeclaration(LangXParser.VariableDeclarationContext ctx) { }
+	@Override public void exitVariableDeclaration(WolaczParser.VariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignment(LangXParser.AssignmentContext ctx) { }
+	@Override public void enterAssignment(WolaczParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssignment(LangXParser.AssignmentContext ctx) { }
+	@Override public void exitAssignment(WolaczParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIoStatement(LangXParser.IoStatementContext ctx) { }
+	@Override public void enterIoStatement(WolaczParser.IoStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIoStatement(LangXParser.IoStatementContext ctx) { }
+	@Override public void exitIoStatement(WolaczParser.IoStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionStatement(LangXParser.ExpressionStatementContext ctx) { }
+	@Override public void enterExpressionStatement(WolaczParser.ExpressionStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpressionStatement(LangXParser.ExpressionStatementContext ctx) { }
+	@Override public void exitExpressionStatement(WolaczParser.ExpressionStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression(LangXParser.ExpressionContext ctx) { }
+	@Override public void enterExpression(WolaczParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpression(LangXParser.ExpressionContext ctx) { }
+	@Override public void exitExpression(WolaczParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterValue(LangXParser.ValueContext ctx) { }
+	@Override public void enterValue(WolaczParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitValue(LangXParser.ValueContext ctx) { }
+	@Override public void exitValue(WolaczParser.ValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterType(LangXParser.TypeContext ctx) { }
+	@Override public void enterType(WolaczParser.TypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitType(LangXParser.TypeContext ctx) { }
+	@Override public void exitType(WolaczParser.TypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

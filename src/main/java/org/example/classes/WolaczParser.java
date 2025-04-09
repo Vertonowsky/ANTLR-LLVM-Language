@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bartek/IdeaProjects/wolacz/src/main/antlr/LangX.g4 by ANTLR 4.13.2
+// Generated from C:/Users/Bartek/IdeaProjects/wolacz/src/main/antlr/Wolacz.g4 by ANTLR 4.13.2
 package org.example.classes;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
-public class LangXParser extends Parser {
+public class WolaczParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -83,7 +83,7 @@ public class LangXParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "LangX.g4"; }
+	public String getGrammarFileName() { return "Wolacz.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -94,14 +94,14 @@ public class LangXParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public LangXParser(TokenStream input) {
+	public WolaczParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProgramContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(LangXParser.EOF, 0); }
+		public TerminalNode EOF() { return getToken(WolaczParser.EOF, 0); }
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
 		}
@@ -114,15 +114,15 @@ public class LangXParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).enterProgram(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).enterProgram(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).exitProgram(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).exitProgram(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LangXVisitor ) return ((LangXVisitor<? extends T>)visitor).visitProgram(this);
+			if ( visitor instanceof WolaczVisitor ) return ((WolaczVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -183,15 +183,15 @@ public class LangXParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).enterStatement(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).enterStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).exitStatement(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).exitStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LangXVisitor ) return ((LangXVisitor<? extends T>)visitor).visitStatement(this);
+			if ( visitor instanceof WolaczVisitor ) return ((WolaczVisitor<? extends T>)visitor).visitStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -257,7 +257,7 @@ public class LangXParser extends Parser {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public TerminalNode ID() { return getToken(LangXParser.ID, 0); }
+		public TerminalNode ID() { return getToken(WolaczParser.ID, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -267,15 +267,15 @@ public class LangXParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_variableDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).enterVariableDeclaration(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).enterVariableDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).exitVariableDeclaration(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).exitVariableDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LangXVisitor ) return ((LangXVisitor<? extends T>)visitor).visitVariableDeclaration(this);
+			if ( visitor instanceof WolaczVisitor ) return ((WolaczVisitor<? extends T>)visitor).visitVariableDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -318,7 +318,7 @@ public class LangXParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class AssignmentContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(LangXParser.ID, 0); }
+		public TerminalNode ID() { return getToken(WolaczParser.ID, 0); }
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
@@ -331,15 +331,15 @@ public class LangXParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_assignment; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).enterAssignment(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).enterAssignment(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).exitAssignment(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).exitAssignment(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LangXVisitor ) return ((LangXVisitor<? extends T>)visitor).visitAssignment(this);
+			if ( visitor instanceof WolaczVisitor ) return ((WolaczVisitor<? extends T>)visitor).visitAssignment(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -417,9 +417,9 @@ public class LangXParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class IoStatementContext extends ParserRuleContext {
-		public TerminalNode READ() { return getToken(LangXParser.READ, 0); }
-		public TerminalNode ID() { return getToken(LangXParser.ID, 0); }
-		public TerminalNode PRINT() { return getToken(LangXParser.PRINT, 0); }
+		public TerminalNode READ() { return getToken(WolaczParser.READ, 0); }
+		public TerminalNode ID() { return getToken(WolaczParser.ID, 0); }
+		public TerminalNode PRINT() { return getToken(WolaczParser.PRINT, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -429,15 +429,15 @@ public class LangXParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_ioStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).enterIoStatement(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).enterIoStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).exitIoStatement(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).exitIoStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LangXVisitor ) return ((LangXVisitor<? extends T>)visitor).visitIoStatement(this);
+			if ( visitor instanceof WolaczVisitor ) return ((WolaczVisitor<? extends T>)visitor).visitIoStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -501,15 +501,15 @@ public class LangXParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expressionStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).enterExpressionStatement(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).enterExpressionStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).exitExpressionStatement(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).exitExpressionStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LangXVisitor ) return ((LangXVisitor<? extends T>)visitor).visitExpressionStatement(this);
+			if ( visitor instanceof WolaczVisitor ) return ((WolaczVisitor<? extends T>)visitor).visitExpressionStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -547,25 +547,25 @@ public class LangXParser extends Parser {
 		public ValueContext value() {
 			return getRuleContext(ValueContext.class,0);
 		}
-		public TerminalNode MUL() { return getToken(LangXParser.MUL, 0); }
-		public TerminalNode DIV() { return getToken(LangXParser.DIV, 0); }
-		public TerminalNode ADD() { return getToken(LangXParser.ADD, 0); }
-		public TerminalNode SUB() { return getToken(LangXParser.SUB, 0); }
+		public TerminalNode MUL() { return getToken(WolaczParser.MUL, 0); }
+		public TerminalNode DIV() { return getToken(WolaczParser.DIV, 0); }
+		public TerminalNode ADD() { return getToken(WolaczParser.ADD, 0); }
+		public TerminalNode SUB() { return getToken(WolaczParser.SUB, 0); }
 		public ExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).enterExpression(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).enterExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).exitExpression(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).exitExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LangXVisitor ) return ((LangXVisitor<? extends T>)visitor).visitExpression(this);
+			if ( visitor instanceof WolaczVisitor ) return ((WolaczVisitor<? extends T>)visitor).visitExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -688,26 +688,26 @@ public class LangXParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ValueContext extends ParserRuleContext {
-		public TerminalNode INT() { return getToken(LangXParser.INT, 0); }
-		public TerminalNode FLOAT() { return getToken(LangXParser.FLOAT, 0); }
-		public TerminalNode STRING() { return getToken(LangXParser.STRING, 0); }
-		public TerminalNode BOOL() { return getToken(LangXParser.BOOL, 0); }
-		public TerminalNode ID() { return getToken(LangXParser.ID, 0); }
+		public TerminalNode INT() { return getToken(WolaczParser.INT, 0); }
+		public TerminalNode FLOAT() { return getToken(WolaczParser.FLOAT, 0); }
+		public TerminalNode STRING() { return getToken(WolaczParser.STRING, 0); }
+		public TerminalNode BOOL() { return getToken(WolaczParser.BOOL, 0); }
+		public TerminalNode ID() { return getToken(WolaczParser.ID, 0); }
 		public ValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_value; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).enterValue(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).enterValue(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).exitValue(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).exitValue(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LangXVisitor ) return ((LangXVisitor<? extends T>)visitor).visitValue(this);
+			if ( visitor instanceof WolaczVisitor ) return ((WolaczVisitor<? extends T>)visitor).visitValue(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -750,15 +750,15 @@ public class LangXParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_type; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).enterType(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).enterType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof LangXListener ) ((LangXListener)listener).exitType(this);
+			if ( listener instanceof WolaczListener ) ((WolaczListener)listener).exitType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof LangXVisitor ) return ((LangXVisitor<? extends T>)visitor).visitType(this);
+			if ( visitor instanceof WolaczVisitor ) return ((WolaczVisitor<? extends T>)visitor).visitType(this);
 			else return visitor.visitChildren(this);
 		}
 	}

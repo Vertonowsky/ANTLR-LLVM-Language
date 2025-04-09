@@ -1,5 +1,4 @@
-// Generated from C:/Users/Bartek/IdeaProjects/wolacz/src/main/antlr/LangX.g4 by ANTLR 4.13.2
-package org.example.classes;
+// Generated from C:/Users/Bartek/IdeaProjects/wolacz/src/main/antlr/Wolacz.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -94,7 +93,7 @@ public class LangXLexer extends Lexer {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "LangX.g4"; }
+	public String getGrammarFileName() { return "Wolacz.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

@@ -1,25 +1,25 @@
 package org.example;
 
-import org.example.classes.LangXBaseVisitor;
-import org.example.classes.LangXParser;
+import org.example.classes.WolaczBaseVisitor;
+import org.example.classes.WolaczParser;
 
 import java.util.*;
 
-public class LLVMActions extends LangXBaseVisitor<String> {
+public class LLVMActions extends WolaczBaseVisitor<String> {
 
     public final LLVMGenerator generator = new LLVMGenerator();
     private final Map<String, String> variableTypes = new HashMap<>();
 
     @Override
-    public String visitProgram(LangXParser.ProgramContext ctx) {
-        for (LangXParser.StatementContext stmt : ctx.statement()) {
+    public String visitProgram(WolaczParser.ProgramContext ctx) {
+        for (WolaczParser.StatementContext stmt : ctx.statement()) {
             visit(stmt);
         }
         return generator.getGeneratedCode();
     }
 
     @Override
-    public String visitVariableDeclaration(LangXParser.VariableDeclarationContext ctx) {
+    public String visitVariableDeclaration(WolaczParser.VariableDeclarationContext ctx) {
         String varName = ctx.ID().getText();
         String typeStr = ctx.type().getText();
         String llvmType = generator.getLLVMType(typeStr);
@@ -48,12 +48,12 @@ public class LLVMActions extends LangXBaseVisitor<String> {
     }
 
     @Override
-    public String visitAssignment(LangXParser.AssignmentContext ctx) {
+    public String visitAssignment(WolaczParser.AssignmentContext ctx) {
         String varName = ctx.ID().getText();
         String targetType = variableTypes.getOrDefault(varName, "i32");
 
-        List<LangXParser.ExpressionContext> exprs = ctx.expression();
-        LangXParser.ExpressionContext valueExpr = exprs.get(exprs.size() - 1);
+        List<WolaczParser.ExpressionContext> exprs = ctx.expression();
+        WolaczParser.ExpressionContext valueExpr = exprs.get(exprs.size() - 1);
 
         // Sprawdzenie, czy zmienna została zadeklarowana
         if (!variableTypes.containsKey(varName)) {
@@ -130,7 +130,7 @@ public class LLVMActions extends LangXBaseVisitor<String> {
 
 
     @Override
-    public String visitIoStatement(LangXParser.IoStatementContext ctx) {
+    public String visitIoStatement(WolaczParser.IoStatementContext ctx) {
         if (ctx.getChildCount() != 4) {
             error(ctx.getStart().getLine(), "Invalid format. Provide one variable inside brackets.");
         }
@@ -147,7 +147,7 @@ public class LLVMActions extends LangXBaseVisitor<String> {
             String valReg = visit(ctx.expression()); // Odwiedź wyrażenie
             String valType = expressionType(ctx.expression());
 
-            if (ctx.expression().getChild(0) instanceof LangXParser.ValueContext valueContext) {
+            if (ctx.expression().getChild(0) instanceof WolaczParser.ValueContext valueContext) {
                 if (valueContext.ID() != null) {
                     String varName = valueContext.ID().getText();
                     if (!variableTypes.containsKey(varName)) {
@@ -162,12 +162,12 @@ public class LLVMActions extends LangXBaseVisitor<String> {
     }
 
     @Override
-    public String visitExpressionStatement(LangXParser.ExpressionStatementContext ctx) {
+    public String visitExpressionStatement(WolaczParser.ExpressionStatementContext ctx) {
         return visit(ctx.expression());
     }
 
     @Override
-    public String visitExpression(LangXParser.ExpressionContext ctx) {
+    public String visitExpression(WolaczParser.ExpressionContext ctx) {
         // pojedyncza wartość
         if (ctx.value() != null) {
             return visit(ctx.value());
@@ -265,7 +265,7 @@ public class LLVMActions extends LangXBaseVisitor<String> {
 
 
     @Override
-    public String visitValue(LangXParser.ValueContext ctx) {
+    public String visitValue(WolaczParser.ValueContext ctx) {
         if (ctx.INT() != null) {
             String reg = generator.newRegister();
             generator.emit(reg + " = add i32 0, " + ctx.INT().getText());
@@ -303,9 +303,9 @@ public class LLVMActions extends LangXBaseVisitor<String> {
         return generator.getGeneratedCode();
     }
 
-    private String expressionType(LangXParser.ExpressionContext ctx) {
+    private String expressionType(WolaczParser.ExpressionContext ctx) {
         if (ctx.value() != null) {
-            LangXParser.ValueContext v = ctx.value();
+            WolaczParser.ValueContext v = ctx.value();
             if (v.FLOAT() != null) return "double";
             if (v.INT() != null) return "i32";
             if (v.ID() != null) {
@@ -321,7 +321,7 @@ public class LLVMActions extends LangXBaseVisitor<String> {
         return "i32";
     }
 
-    private String dominantType(LangXParser.ExpressionContext a, LangXParser.ExpressionContext b) {
+    private String dominantType(WolaczParser.ExpressionContext a, WolaczParser.ExpressionContext b) {
         String t1 = expressionType(a);
         String t2 = expressionType(b);
         if (t1.equals("double") || t2.equals("double")) return "double";

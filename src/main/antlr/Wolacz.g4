@@ -1,4 +1,4 @@
-grammar LangX;
+grammar Wolacz;
 
 // Parser rules
 
@@ -18,7 +18,6 @@ variableDeclaration
 assignment
     : ID '=' expression
     | ID '[' expression ']' '=' expression
-    | ID '[' expression ']' '[' expression ']' '=' expression
     ;
 
 ioStatement
@@ -41,7 +40,6 @@ value
     : INT
     | FLOAT
     | STRING
-    | BOOL
     | ID
     ;
 
@@ -50,7 +48,6 @@ type
     | 'float'        // może jako alias Float64
     | 'Float32'
     | 'Float64'
-    | 'bool'
     | 'string'
     ;
 
@@ -62,19 +59,12 @@ SUB : '-' ;
 MUL : '*' ;
 DIV : '/' ;
 
-AND : 'AND' ;
-OR  : 'OR' ;
-XOR : 'XOR' ;
-NEG : 'NEG' ;
-
 READ  : 'read' ;
 PRINT : 'print' ;
 
 INT    : '-'? [0-9]+ ;
 FLOAT  : '-'? [0-9]+ '.' [0-9]+ ;
 STRING : '"' (~["\\] | '\\' .)* '"' ;
-
-BOOL : 'true' | 'false' ;
 
 ID : [a-zA-Z_][a-zA-Z0-9_]* ;
 

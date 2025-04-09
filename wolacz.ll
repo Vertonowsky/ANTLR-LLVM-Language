@@ -75,10 +75,5 @@ call void @llvm.memcpy.p0i8.p0i8.i64(i8* %31, i8* %32, i64 7, i1 false)
 %36 = call i32 (i8*, ...) @scanf(i8* getelementptr ([3 x i8], [3 x i8]* @.stringRead, i32 0, i32 0), i8* %35)
 %37 = getelementptr [100 x i8], [100 x i8]* %nazwisko, i32 0, i32 0
 %38 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.stringFormat, i32 0, i32 0), i8* %37)
-%ss = alloca float, align 4
-%39 = fadd double 0.0, 2.222
-store float %39, float* %ss
-%40 = load float, float* %ss
-%41 = call i32 (i8*, ...) @printf(i8* getelementptr ([4 x i8], [4 x i8]* @.floatFormat, i32 0, i32 0), float %40)
 ret i32 0
 }

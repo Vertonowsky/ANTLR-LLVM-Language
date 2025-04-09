@@ -4,8 +4,8 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.example.classes.LangXLexer;
-import org.example.classes.LangXParser;
+import org.example.classes.WolaczLexer;
+import org.example.classes.WolaczParser;
 
 import java.io.PrintWriter;
 
@@ -18,10 +18,10 @@ public class Main {
 
         CharStream input = CharStreams.fromFileName(args[0]);
 
-        LangXLexer lexer = new LangXLexer(input);
+        WolaczLexer lexer = new WolaczLexer(input);
 
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        LangXParser parser = new LangXParser(tokens);
+        WolaczParser parser = new WolaczParser(tokens);
         parser.removeErrorListeners();
         parser.addErrorListener(new ErrorListener());
 

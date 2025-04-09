@@ -24,7 +24,6 @@ public class LLVMGenerator {
          case "int" -> "i32";
          case "float", "Float64" -> "double";  // alias
          case "Float32" -> "float";
-         case "bool" -> "i1";
          case "string" -> "i8*";
          default -> throw new RuntimeException("Unknown type: " + langxType);
       };
