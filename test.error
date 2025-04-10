@@ -28,5 +28,3 @@ string nazwa = "COLA";
 
 firma = "COLA";
 
-int z = 9;
-z = -z;

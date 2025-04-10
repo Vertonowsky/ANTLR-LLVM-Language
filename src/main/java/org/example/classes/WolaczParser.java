@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bartek/IdeaProjects/wolacz/src/main/antlr/Wolacz.g4 by ANTLR 4.13.2
+// Generated from D:/SZKOLA/Studia/PW/Semestr_I/JIFK/src/main/antlr/Wolacz.g4 by ANTLR 4.13.2
 package org.example.classes;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -18,9 +18,8 @@ public class WolaczParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, ADD=13, SUB=14, MUL=15, DIV=16, AND=17, OR=18, 
-		XOR=19, NEG=20, READ=21, PRINT=22, INT=23, FLOAT=24, STRING=25, BOOL=26, 
-		ID=27, WS=28;
+		T__9=10, T__10=11, ADD=12, SUB=13, MUL=14, DIV=15, READ=16, PRINT=17, 
+		INT=18, FLOAT=19, STRING=20, ID=21, WS=22;
 	public static final int
 		RULE_program = 0, RULE_statement = 1, RULE_variableDeclaration = 2, RULE_assignment = 3, 
 		RULE_ioStatement = 4, RULE_expressionStatement = 5, RULE_expression = 6, 
@@ -36,16 +35,15 @@ public class WolaczParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "';'", "'='", "'['", "']'", "'('", "')'", "'int'", "'float'", "'Float32'", 
-			"'Float64'", "'bool'", "'string'", "'+'", "'-'", "'*'", "'/'", "'AND'", 
-			"'OR'", "'XOR'", "'NEG'", "'read'", "'print'"
+			"'Float64'", "'string'", "'+'", "'-'", "'*'", "'/'", "'read'", "'print'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, "ADD", "SUB", "MUL", "DIV", "AND", "OR", "XOR", "NEG", "READ", 
-			"PRINT", "INT", "FLOAT", "STRING", "BOOL", "ID", "WS"
+			"ADD", "SUB", "MUL", "DIV", "READ", "PRINT", "INT", "FLOAT", "STRING", 
+			"ID", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -137,7 +135,7 @@ public class WolaczParser extends Parser {
 			setState(21);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 266346400L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4132768L) != 0)) {
 				{
 				{
 				setState(18);
@@ -348,7 +346,7 @@ public class WolaczParser extends Parser {
 		AssignmentContext _localctx = new AssignmentContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_assignment);
 		try {
-			setState(66);
+			setState(56);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
@@ -376,29 +374,6 @@ public class WolaczParser extends Parser {
 				setState(53);
 				match(T__1);
 				setState(54);
-				expression(0);
-				}
-				break;
-			case 3:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(56);
-				match(ID);
-				setState(57);
-				match(T__2);
-				setState(58);
-				expression(0);
-				setState(59);
-				match(T__3);
-				setState(60);
-				match(T__2);
-				setState(61);
-				expression(0);
-				setState(62);
-				match(T__3);
-				setState(63);
-				match(T__1);
-				setState(64);
 				expression(0);
 				}
 				break;
@@ -446,32 +421,32 @@ public class WolaczParser extends Parser {
 		IoStatementContext _localctx = new IoStatementContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_ioStatement);
 		try {
-			setState(77);
+			setState(67);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case READ:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(68);
+				setState(58);
 				match(READ);
-				setState(69);
+				setState(59);
 				match(T__4);
-				setState(70);
+				setState(60);
 				match(ID);
-				setState(71);
+				setState(61);
 				match(T__5);
 				}
 				break;
 			case PRINT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(72);
+				setState(62);
 				match(PRINT);
-				setState(73);
+				setState(63);
 				match(T__4);
-				setState(74);
+				setState(64);
 				expression(0);
-				setState(75);
+				setState(65);
 				match(T__5);
 				}
 				break;
@@ -520,7 +495,7 @@ public class WolaczParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(79);
+			setState(69);
 			expression(0);
 			}
 		}
@@ -586,26 +561,25 @@ public class WolaczParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
+			setState(77);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__4:
 				{
-				setState(82);
+				setState(72);
 				match(T__4);
-				setState(83);
+				setState(73);
 				expression(0);
-				setState(84);
+				setState(74);
 				match(T__5);
 				}
 				break;
 			case INT:
 			case FLOAT:
 			case STRING:
-			case BOOL:
 			case ID:
 				{
-				setState(86);
+				setState(76);
 				value();
 				}
 				break;
@@ -613,7 +587,7 @@ public class WolaczParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(97);
+			setState(87);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -621,16 +595,16 @@ public class WolaczParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(95);
+					setState(85);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(89);
+						setState(79);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(90);
+						setState(80);
 						((ExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==MUL || _la==DIV) ) {
@@ -641,7 +615,7 @@ public class WolaczParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(91);
+						setState(81);
 						expression(4);
 						}
 						break;
@@ -649,9 +623,9 @@ public class WolaczParser extends Parser {
 						{
 						_localctx = new ExpressionContext(_parentctx, _parentState);
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(92);
+						setState(82);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(93);
+						setState(83);
 						((ExpressionContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==ADD || _la==SUB) ) {
@@ -662,14 +636,14 @@ public class WolaczParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(94);
+						setState(84);
 						expression(3);
 						}
 						break;
 					}
 					} 
 				}
-				setState(99);
+				setState(89);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
@@ -691,7 +665,6 @@ public class WolaczParser extends Parser {
 		public TerminalNode INT() { return getToken(WolaczParser.INT, 0); }
 		public TerminalNode FLOAT() { return getToken(WolaczParser.FLOAT, 0); }
 		public TerminalNode STRING() { return getToken(WolaczParser.STRING, 0); }
-		public TerminalNode BOOL() { return getToken(WolaczParser.BOOL, 0); }
 		public TerminalNode ID() { return getToken(WolaczParser.ID, 0); }
 		public ValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -719,9 +692,9 @@ public class WolaczParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(100);
+			setState(90);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 260046848L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 3932160L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -770,9 +743,9 @@ public class WolaczParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(102);
+			setState(92);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 8064L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 3968L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -811,7 +784,7 @@ public class WolaczParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u001ci\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0016_\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0001\u0000\u0005\u0000\u0014\b\u0000\n\u0000\f\u0000\u0017"+
@@ -820,58 +793,52 @@ public class WolaczParser extends Parser {
 		"\u0001\u0001\u0001\u0001\u0001\u0003\u0001\'\b\u0001\u0001\u0002\u0001"+
 		"\u0002\u0001\u0002\u0001\u0002\u0003\u0002-\b\u0002\u0001\u0003\u0001"+
 		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
-		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
-		"\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0001"+
-		"\u0003\u0003\u0003C\b\u0003\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
-		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0003"+
-		"\u0004N\b\u0004\u0001\u0005\u0001\u0005\u0001\u0006\u0001\u0006\u0001"+
-		"\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0003\u0006X\b\u0006\u0001"+
-		"\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0005"+
-		"\u0006`\b\u0006\n\u0006\f\u0006c\t\u0006\u0001\u0007\u0001\u0007\u0001"+
-		"\b\u0001\b\u0001\b\u0000\u0001\f\t\u0000\u0002\u0004\u0006\b\n\f\u000e"+
-		"\u0010\u0000\u0004\u0001\u0000\u000f\u0010\u0001\u0000\r\u000e\u0001\u0000"+
-		"\u0017\u001b\u0001\u0000\u0007\fj\u0000\u0015\u0001\u0000\u0000\u0000"+
-		"\u0002&\u0001\u0000\u0000\u0000\u0004(\u0001\u0000\u0000\u0000\u0006B"+
-		"\u0001\u0000\u0000\u0000\bM\u0001\u0000\u0000\u0000\nO\u0001\u0000\u0000"+
-		"\u0000\fW\u0001\u0000\u0000\u0000\u000ed\u0001\u0000\u0000\u0000\u0010"+
-		"f\u0001\u0000\u0000\u0000\u0012\u0014\u0003\u0002\u0001\u0000\u0013\u0012"+
-		"\u0001\u0000\u0000\u0000\u0014\u0017\u0001\u0000\u0000\u0000\u0015\u0013"+
-		"\u0001\u0000\u0000\u0000\u0015\u0016\u0001\u0000\u0000\u0000\u0016\u0018"+
-		"\u0001\u0000\u0000\u0000\u0017\u0015\u0001\u0000\u0000\u0000\u0018\u0019"+
-		"\u0005\u0000\u0000\u0001\u0019\u0001\u0001\u0000\u0000\u0000\u001a\u001b"+
-		"\u0003\u0004\u0002\u0000\u001b\u001c\u0005\u0001\u0000\u0000\u001c\'\u0001"+
-		"\u0000\u0000\u0000\u001d\u001e\u0003\u0006\u0003\u0000\u001e\u001f\u0005"+
-		"\u0001\u0000\u0000\u001f\'\u0001\u0000\u0000\u0000 !\u0003\b\u0004\u0000"+
-		"!\"\u0005\u0001\u0000\u0000\"\'\u0001\u0000\u0000\u0000#$\u0003\n\u0005"+
-		"\u0000$%\u0005\u0001\u0000\u0000%\'\u0001\u0000\u0000\u0000&\u001a\u0001"+
-		"\u0000\u0000\u0000&\u001d\u0001\u0000\u0000\u0000& \u0001\u0000\u0000"+
-		"\u0000&#\u0001\u0000\u0000\u0000\'\u0003\u0001\u0000\u0000\u0000()\u0003"+
-		"\u0010\b\u0000),\u0005\u001b\u0000\u0000*+\u0005\u0002\u0000\u0000+-\u0003"+
-		"\f\u0006\u0000,*\u0001\u0000\u0000\u0000,-\u0001\u0000\u0000\u0000-\u0005"+
-		"\u0001\u0000\u0000\u0000./\u0005\u001b\u0000\u0000/0\u0005\u0002\u0000"+
-		"\u00000C\u0003\f\u0006\u000012\u0005\u001b\u0000\u000023\u0005\u0003\u0000"+
-		"\u000034\u0003\f\u0006\u000045\u0005\u0004\u0000\u000056\u0005\u0002\u0000"+
-		"\u000067\u0003\f\u0006\u00007C\u0001\u0000\u0000\u000089\u0005\u001b\u0000"+
-		"\u00009:\u0005\u0003\u0000\u0000:;\u0003\f\u0006\u0000;<\u0005\u0004\u0000"+
-		"\u0000<=\u0005\u0003\u0000\u0000=>\u0003\f\u0006\u0000>?\u0005\u0004\u0000"+
-		"\u0000?@\u0005\u0002\u0000\u0000@A\u0003\f\u0006\u0000AC\u0001\u0000\u0000"+
-		"\u0000B.\u0001\u0000\u0000\u0000B1\u0001\u0000\u0000\u0000B8\u0001\u0000"+
-		"\u0000\u0000C\u0007\u0001\u0000\u0000\u0000DE\u0005\u0015\u0000\u0000"+
-		"EF\u0005\u0005\u0000\u0000FG\u0005\u001b\u0000\u0000GN\u0005\u0006\u0000"+
-		"\u0000HI\u0005\u0016\u0000\u0000IJ\u0005\u0005\u0000\u0000JK\u0003\f\u0006"+
-		"\u0000KL\u0005\u0006\u0000\u0000LN\u0001\u0000\u0000\u0000MD\u0001\u0000"+
-		"\u0000\u0000MH\u0001\u0000\u0000\u0000N\t\u0001\u0000\u0000\u0000OP\u0003"+
-		"\f\u0006\u0000P\u000b\u0001\u0000\u0000\u0000QR\u0006\u0006\uffff\uffff"+
-		"\u0000RS\u0005\u0005\u0000\u0000ST\u0003\f\u0006\u0000TU\u0005\u0006\u0000"+
-		"\u0000UX\u0001\u0000\u0000\u0000VX\u0003\u000e\u0007\u0000WQ\u0001\u0000"+
-		"\u0000\u0000WV\u0001\u0000\u0000\u0000Xa\u0001\u0000\u0000\u0000YZ\n\u0003"+
-		"\u0000\u0000Z[\u0007\u0000\u0000\u0000[`\u0003\f\u0006\u0004\\]\n\u0002"+
-		"\u0000\u0000]^\u0007\u0001\u0000\u0000^`\u0003\f\u0006\u0003_Y\u0001\u0000"+
-		"\u0000\u0000_\\\u0001\u0000\u0000\u0000`c\u0001\u0000\u0000\u0000a_\u0001"+
-		"\u0000\u0000\u0000ab\u0001\u0000\u0000\u0000b\r\u0001\u0000\u0000\u0000"+
-		"ca\u0001\u0000\u0000\u0000de\u0007\u0002\u0000\u0000e\u000f\u0001\u0000"+
-		"\u0000\u0000fg\u0007\u0003\u0000\u0000g\u0011\u0001\u0000\u0000\u0000"+
-		"\b\u0015&,BMW_a";
+		"\u0003\u0001\u0003\u0001\u0003\u0003\u00039\b\u0003\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001"+
+		"\u0004\u0001\u0004\u0003\u0004D\b\u0004\u0001\u0005\u0001\u0005\u0001"+
+		"\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0003"+
+		"\u0006N\b\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
+		"\u0006\u0001\u0006\u0005\u0006V\b\u0006\n\u0006\f\u0006Y\t\u0006\u0001"+
+		"\u0007\u0001\u0007\u0001\b\u0001\b\u0001\b\u0000\u0001\f\t\u0000\u0002"+
+		"\u0004\u0006\b\n\f\u000e\u0010\u0000\u0004\u0001\u0000\u000e\u000f\u0001"+
+		"\u0000\f\r\u0001\u0000\u0012\u0015\u0001\u0000\u0007\u000b_\u0000\u0015"+
+		"\u0001\u0000\u0000\u0000\u0002&\u0001\u0000\u0000\u0000\u0004(\u0001\u0000"+
+		"\u0000\u0000\u00068\u0001\u0000\u0000\u0000\bC\u0001\u0000\u0000\u0000"+
+		"\nE\u0001\u0000\u0000\u0000\fM\u0001\u0000\u0000\u0000\u000eZ\u0001\u0000"+
+		"\u0000\u0000\u0010\\\u0001\u0000\u0000\u0000\u0012\u0014\u0003\u0002\u0001"+
+		"\u0000\u0013\u0012\u0001\u0000\u0000\u0000\u0014\u0017\u0001\u0000\u0000"+
+		"\u0000\u0015\u0013\u0001\u0000\u0000\u0000\u0015\u0016\u0001\u0000\u0000"+
+		"\u0000\u0016\u0018\u0001\u0000\u0000\u0000\u0017\u0015\u0001\u0000\u0000"+
+		"\u0000\u0018\u0019\u0005\u0000\u0000\u0001\u0019\u0001\u0001\u0000\u0000"+
+		"\u0000\u001a\u001b\u0003\u0004\u0002\u0000\u001b\u001c\u0005\u0001\u0000"+
+		"\u0000\u001c\'\u0001\u0000\u0000\u0000\u001d\u001e\u0003\u0006\u0003\u0000"+
+		"\u001e\u001f\u0005\u0001\u0000\u0000\u001f\'\u0001\u0000\u0000\u0000 "+
+		"!\u0003\b\u0004\u0000!\"\u0005\u0001\u0000\u0000\"\'\u0001\u0000\u0000"+
+		"\u0000#$\u0003\n\u0005\u0000$%\u0005\u0001\u0000\u0000%\'\u0001\u0000"+
+		"\u0000\u0000&\u001a\u0001\u0000\u0000\u0000&\u001d\u0001\u0000\u0000\u0000"+
+		"& \u0001\u0000\u0000\u0000&#\u0001\u0000\u0000\u0000\'\u0003\u0001\u0000"+
+		"\u0000\u0000()\u0003\u0010\b\u0000),\u0005\u0015\u0000\u0000*+\u0005\u0002"+
+		"\u0000\u0000+-\u0003\f\u0006\u0000,*\u0001\u0000\u0000\u0000,-\u0001\u0000"+
+		"\u0000\u0000-\u0005\u0001\u0000\u0000\u0000./\u0005\u0015\u0000\u0000"+
+		"/0\u0005\u0002\u0000\u000009\u0003\f\u0006\u000012\u0005\u0015\u0000\u0000"+
+		"23\u0005\u0003\u0000\u000034\u0003\f\u0006\u000045\u0005\u0004\u0000\u0000"+
+		"56\u0005\u0002\u0000\u000067\u0003\f\u0006\u000079\u0001\u0000\u0000\u0000"+
+		"8.\u0001\u0000\u0000\u000081\u0001\u0000\u0000\u00009\u0007\u0001\u0000"+
+		"\u0000\u0000:;\u0005\u0010\u0000\u0000;<\u0005\u0005\u0000\u0000<=\u0005"+
+		"\u0015\u0000\u0000=D\u0005\u0006\u0000\u0000>?\u0005\u0011\u0000\u0000"+
+		"?@\u0005\u0005\u0000\u0000@A\u0003\f\u0006\u0000AB\u0005\u0006\u0000\u0000"+
+		"BD\u0001\u0000\u0000\u0000C:\u0001\u0000\u0000\u0000C>\u0001\u0000\u0000"+
+		"\u0000D\t\u0001\u0000\u0000\u0000EF\u0003\f\u0006\u0000F\u000b\u0001\u0000"+
+		"\u0000\u0000GH\u0006\u0006\uffff\uffff\u0000HI\u0005\u0005\u0000\u0000"+
+		"IJ\u0003\f\u0006\u0000JK\u0005\u0006\u0000\u0000KN\u0001\u0000\u0000\u0000"+
+		"LN\u0003\u000e\u0007\u0000MG\u0001\u0000\u0000\u0000ML\u0001\u0000\u0000"+
+		"\u0000NW\u0001\u0000\u0000\u0000OP\n\u0003\u0000\u0000PQ\u0007\u0000\u0000"+
+		"\u0000QV\u0003\f\u0006\u0004RS\n\u0002\u0000\u0000ST\u0007\u0001\u0000"+
+		"\u0000TV\u0003\f\u0006\u0003UO\u0001\u0000\u0000\u0000UR\u0001\u0000\u0000"+
+		"\u0000VY\u0001\u0000\u0000\u0000WU\u0001\u0000\u0000\u0000WX\u0001\u0000"+
+		"\u0000\u0000X\r\u0001\u0000\u0000\u0000YW\u0001\u0000\u0000\u0000Z[\u0007"+
+		"\u0002\u0000\u0000[\u000f\u0001\u0000\u0000\u0000\\]\u0007\u0003\u0000"+
+		"\u0000]\u0011\u0001\u0000\u0000\u0000\b\u0015&,8CMUW";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -19,13 +19,13 @@ public class LLVMGenerator {
       return "L" + (labelCount++);
    }
 
-   public String getLLVMType(String langxType) {
-      return switch (langxType) {
+   public String getLLVMType(String wolaczType) {
+      return switch (wolaczType) {
          case "int" -> "i32";
          case "float", "Float64" -> "double";  // alias
          case "Float32" -> "float";
          case "string" -> "i8*";
-         default -> throw new RuntimeException("Unknown type: " + langxType);
+         default -> throw new RuntimeException("Unknown type: " + wolaczType);
       };
    }
 
@@ -56,7 +56,6 @@ public class LLVMGenerator {
 
    public String getGeneratedCode() {
       StringBuilder all = new StringBuilder();
-      all.append("; ModuleID = 'langx'\n");
 
       // Literals
       for (String literal : stringLiterals.values()) {
@@ -81,7 +80,7 @@ public class LLVMGenerator {
 
 
    public void startModule() {
-      emit("; ModuleID = 'langx'");
+      emit("; ModuleID = 'wolacz'");
       emit("declare void @llvm.memcpy.p0i8.p0i8.i64(i8*, i8*, i64, i1)");
 
 

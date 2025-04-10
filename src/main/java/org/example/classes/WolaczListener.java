@@ -1,4 +1,4 @@
-// Generated from C:/Users/Bartek/IdeaProjects/wolacz/src/main/antlr/Wolacz.g4 by ANTLR 4.13.2
+// Generated from D:/SZKOLA/Studia/PW/Semestr_I/JIFK/src/main/antlr/Wolacz.g4 by ANTLR 4.13.2
 package org.example.classes;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

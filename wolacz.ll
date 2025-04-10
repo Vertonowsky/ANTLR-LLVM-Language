@@ -1,6 +1,5 @@
-; ModuleID = 'langx'
 @.str0 = private constant [7 x i8] c"Bartek\00"
-; ModuleID = 'langx'
+; ModuleID = 'wolacz'
 declare void @llvm.memcpy.p0i8.p0i8.i64(i8*, i8*, i64, i1)
 @.intFormat = private constant [4 x i8] c"%d\0A\00"
 @.floatFormat = private constant [7 x i8] c"%.10f\0A\00"
