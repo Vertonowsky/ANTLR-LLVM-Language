@@ -1,15 +1,17 @@
-package org.example;
+package org.vertonowsky;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.example.classes.WolaczLexer;
-import org.example.classes.WolaczParser;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.vertonowsky.gen.WolaczLexer;
+import org.vertonowsky.gen.WolaczParser;
 
 import java.io.PrintWriter;
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
         if(args.length < 1) {
             System.err.println("Provide input file!");
@@ -27,19 +29,15 @@ public class Main {
 
         ParseTree tree = parser.program();
 
-        //System.out.println(tree.toStringTree(parser));
+        ParseTreeWalker walker = new ParseTreeWalker();
+        walker.walk(new LLVMActions(), tree);
 
-        LLVMActions actions = new LLVMActions();
-        actions.generator.startModule();
-        actions.visit(tree);
-        actions.generator.endModule();
-
-
-        String llvmCode = actions.getLLVM();
+        String llvmCode = LLVMGenerator.generate();
         System.out.println(llvmCode);
 
         try (PrintWriter writer = new PrintWriter("wolacz.ll")) {
             writer.write(llvmCode);
         }
     }
+
 }

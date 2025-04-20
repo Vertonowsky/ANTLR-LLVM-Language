@@ -1,0 +1,58 @@
+function int multiply(int a, int b):
+    result = a * b
+    return result
+endfunction
+
+przerwa = "===================="
+
+z = ""
+read(z)
+write(z)
+
+halo = ((2 + 1) * 8)/ (3-1)
+write(halo)
+
+write(przerwa)
+
+str = "hello, my turn"
+strsec = "functions:"
+i = 0
+repeat 10:
+    if i == 5:
+        write(str)
+    endif
+    write(i)
+    i = i + 1
+endrepeat
+
+write(przerwa)
+
+write(strsec)
+i = 0
+repeat 5:
+    multi = multiply(2, i)
+    write(multi)
+    i = i + 1
+    multi = "lol"
+    write(multi)
+endrepeat
+i = "I'm done, thanks!"
+write(i)
+
+write(przerwa)
+
+if halo == 12:
+    write(z)
+endif
+
+write(przerwa)
+
+koniunkcja = (false && true) || true
+alternatywa = (true || false) || true
+negacja = !false
+xor = true ^ true
+
+write(koniunkcja)
+write(alternatywa)
+write(negacja)
+write(xor)
