@@ -497,10 +497,13 @@ public class LLVMActions extends WolaczBaseListener {
         String ID = ctx.ID().getText();
         String prefix = global ? "@" : "%";
         ID = prefix + ID;
-        if (!variables.containsKey(ID))
+        if (global && !variables.containsKey(ID))
             error(ctx.getStart().getLine(), "unknown variable");
 
-        Value v = variables.get(ID);
+        if (!global && !localvariables.containsKey(ID))
+            error(ctx.getStart().getLine(), "unknown local variable");
+
+        Value v = global? variables.get(ID) : localvariables.get(ID);
         if (v.type != null) {
             switch (v.type) {
                 case INT    -> LLVMGenerator.writef_i32(ID);

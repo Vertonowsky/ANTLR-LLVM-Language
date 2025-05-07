@@ -1,0 +1,17 @@
+float[] arr = [4.1 7.2 9.3]
+elem = arr[3]
+write(elem)
+
+
+
+a = 2
+
+function int multiply(int a, int b):
+    result = a * b
+    c = "siema"
+    print(j)
+    return result
+endfunction
+
+print(a)
+print(c)
