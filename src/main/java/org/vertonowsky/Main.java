@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        if(args.length < 1) {
+        if (args.length < 1) {
             System.err.println("Provide input file!");
             System.exit(1);
         }
@@ -32,7 +32,7 @@ public class Main {
         ParseTreeWalker walker = new ParseTreeWalker();
         walker.walk(new LLVMActions(), tree);
 
-        String llvmCode = LLVMGenerator.generate();
+        String llvmCode = LLVMGenerator.generate(LLVMActions.consts);
         System.out.println(llvmCode);
 
         try (PrintWriter writer = new PrintWriter("wolacz.ll")) {

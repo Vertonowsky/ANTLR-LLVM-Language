@@ -88,6 +88,18 @@ public interface WolaczListener extends ParseTreeListener {
 	 */
 	void exitRead(WolaczParser.ReadContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code newArray}
+	 * labeled alternative in {@link WolaczParser#operation}.
+	 * @param ctx the parse tree
+	 */
+	void enterNewArray(WolaczParser.NewArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code newArray}
+	 * labeled alternative in {@link WolaczParser#operation}.
+	 * @param ctx the parse tree
+	 */
+	void exitNewArray(WolaczParser.NewArrayContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link WolaczParser#repetitions}.
 	 * @param ctx the parse tree
 	 */
@@ -286,6 +298,18 @@ public interface WolaczListener extends ParseTreeListener {
 	 */
 	void exitFloat(WolaczParser.FloatContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code float64}
+	 * labeled alternative in {@link WolaczParser#expr4}.
+	 * @param ctx the parse tree
+	 */
+	void enterFloat64(WolaczParser.Float64Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code float64}
+	 * labeled alternative in {@link WolaczParser#expr4}.
+	 * @param ctx the parse tree
+	 */
+	void exitFloat64(WolaczParser.Float64Context ctx);
+	/**
 	 * Enter a parse tree produced by the {@code id1}
 	 * labeled alternative in {@link WolaczParser#expr4}.
 	 * @param ctx the parse tree
@@ -297,18 +321,6 @@ public interface WolaczListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitId1(WolaczParser.Id1Context ctx);
-	/**
-	 * Enter a parse tree produced by the {@code array}
-	 * labeled alternative in {@link WolaczParser#expr4}.
-	 * @param ctx the parse tree
-	 */
-	void enterArray(WolaczParser.ArrayContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code array}
-	 * labeled alternative in {@link WolaczParser#expr4}.
-	 * @param ctx the parse tree
-	 */
-	void exitArray(WolaczParser.ArrayContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code toint}
 	 * labeled alternative in {@link WolaczParser#expr4}.
@@ -357,6 +369,18 @@ public interface WolaczListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPar(WolaczParser.ParContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arrElem}
+	 * labeled alternative in {@link WolaczParser#expr4}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrElem(WolaczParser.ArrElemContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arrElem}
+	 * labeled alternative in {@link WolaczParser#expr4}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrElem(WolaczParser.ArrElemContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link WolaczParser#funccall}.
 	 * @param ctx the parse tree
@@ -500,30 +524,6 @@ public interface WolaczListener extends ParseTreeListener {
 	 */
 	void exitBoolpar(WolaczParser.BoolparContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code intarray}
-	 * labeled alternative in {@link WolaczParser#arrayExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterIntarray(WolaczParser.IntarrayContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code intarray}
-	 * labeled alternative in {@link WolaczParser#arrayExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitIntarray(WolaczParser.IntarrayContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code floatarray}
-	 * labeled alternative in {@link WolaczParser#arrayExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterFloatarray(WolaczParser.FloatarrayContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code floatarray}
-	 * labeled alternative in {@link WolaczParser#arrayExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitFloatarray(WolaczParser.FloatarrayContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link WolaczParser#function}.
 	 * @param ctx the parse tree
 	 */
@@ -563,4 +563,14 @@ public interface WolaczListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFblock(WolaczParser.FblockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link WolaczParser#arrayType}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayType(WolaczParser.ArrayTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link WolaczParser#arrayType}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayType(WolaczParser.ArrayTypeContext ctx);
 }

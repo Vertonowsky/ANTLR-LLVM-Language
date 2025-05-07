@@ -1,13 +1,38 @@
+z = ""
+read(z)
+write(z)
+
+przerwa = "===================="
+write(przerwa)
+
+koniunkcja = (false && true) || true
+alternatywa = (true || false) || true
+negacja = !false
+xor = true ^ true
+
+write(koniunkcja)
+write(alternatywa)
+write(negacja)
+write(xor)
+
+write(przerwa)
+
+float[] arr = [4.1 7.2 9.3]
+elem = arr[2]
+write(elem)
+
+write(przerwa)
+
+
+
+
+
+
+
 function int multiply(int a, int b):
     result = a * b
     return result
 endfunction
-
-przerwa = "===================="
-
-z = ""
-read(z)
-write(z)
 
 halo = ((2 + 1) * 8)/ (3-1)
 write(halo)
@@ -46,13 +71,3 @@ if halo == 12:
 endif
 
 write(przerwa)
-
-koniunkcja = (false && true) || true
-alternatywa = (true || false) || true
-negacja = !false
-xor = true ^ true
-
-write(koniunkcja)
-write(alternatywa)
-write(negacja)
-write(xor)

@@ -58,6 +58,13 @@ public interface WolaczVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRead(WolaczParser.ReadContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code newArray}
+	 * labeled alternative in {@link WolaczParser#operation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNewArray(WolaczParser.NewArrayContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link WolaczParser#repetitions}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -174,19 +181,19 @@ public interface WolaczVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFloat(WolaczParser.FloatContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code float64}
+	 * labeled alternative in {@link WolaczParser#expr4}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFloat64(WolaczParser.Float64Context ctx);
+	/**
 	 * Visit a parse tree produced by the {@code id1}
 	 * labeled alternative in {@link WolaczParser#expr4}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitId1(WolaczParser.Id1Context ctx);
-	/**
-	 * Visit a parse tree produced by the {@code array}
-	 * labeled alternative in {@link WolaczParser#expr4}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArray(WolaczParser.ArrayContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code toint}
 	 * labeled alternative in {@link WolaczParser#expr4}.
@@ -215,6 +222,13 @@ public interface WolaczVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPar(WolaczParser.ParContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code arrElem}
+	 * labeled alternative in {@link WolaczParser#expr4}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrElem(WolaczParser.ArrElemContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link WolaczParser#funccall}.
 	 * @param ctx the parse tree
@@ -299,20 +313,6 @@ public interface WolaczVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBoolpar(WolaczParser.BoolparContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code intarray}
-	 * labeled alternative in {@link WolaczParser#arrayExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIntarray(WolaczParser.IntarrayContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code floatarray}
-	 * labeled alternative in {@link WolaczParser#arrayExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFloatarray(WolaczParser.FloatarrayContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link WolaczParser#function}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -336,4 +336,10 @@ public interface WolaczVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFblock(WolaczParser.FblockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link WolaczParser#arrayType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayType(WolaczParser.ArrayTypeContext ctx);
 }

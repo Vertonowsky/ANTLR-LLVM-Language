@@ -101,6 +101,18 @@ public class WolaczBaseListener implements WolaczListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterNewArray(WolaczParser.NewArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNewArray(WolaczParser.NewArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterRepetitions(WolaczParser.RepetitionsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -305,6 +317,18 @@ public class WolaczBaseListener implements WolaczListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFloat64(WolaczParser.Float64Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFloat64(WolaczParser.Float64Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterId1(WolaczParser.Id1Context ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -312,18 +336,6 @@ public class WolaczBaseListener implements WolaczListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitId1(WolaczParser.Id1Context ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArray(WolaczParser.ArrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArray(WolaczParser.ArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -372,6 +384,18 @@ public class WolaczBaseListener implements WolaczListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPar(WolaczParser.ParContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrElem(WolaczParser.ArrElemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrElem(WolaczParser.ArrElemContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -521,30 +545,6 @@ public class WolaczBaseListener implements WolaczListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntarray(WolaczParser.IntarrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIntarray(WolaczParser.IntarrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFloatarray(WolaczParser.FloatarrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFloatarray(WolaczParser.FloatarrayContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterFunction(WolaczParser.FunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -588,6 +588,18 @@ public class WolaczBaseListener implements WolaczListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFblock(WolaczParser.FblockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayType(WolaczParser.ArrayTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayType(WolaczParser.ArrayTypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

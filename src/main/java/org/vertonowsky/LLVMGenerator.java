@@ -364,8 +364,60 @@ class LLVMGenerator {
       str++;
    }
 
+   static void declare_i32_array(String id, int size) {
+      buffer += "%" + id + " = alloca [" + size + " x i32], align 16\n";
+      buffer += "%" + reg + " = bitcast [" + size + " x i32]* %" + id + " to i8*\n";
+      reg++;
+      buffer += "call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 16 %" + (reg - 1) +
+              ", i8* align 16 bitcast ([" + size + " x i32]* @" + id + " to i8*), i64 " + (size * 4) + ", i1 false)\n";
+   }
 
-   static String generate() {
+   static void declare_double_array(String id, int size) {
+      buffer += "%" + id + " = alloca [" + size + " x double], align 16\n";
+      buffer += "%" + reg + " = bitcast [" + size + " x double]* %" + id + " to i8*\n";
+      reg++;
+      buffer += "call void @llvm.memcpy.p0i8.p0i8.i64(i8* align 16 %" + (reg - 1) +
+              ", i8* align 16 bitcast ([" + size + " x double]* @" + id + " to i8*), i64 " + (size * 8) + ", i1 false)\n";
+   }
+
+   static void getelementptr_i32(String id, int size, int index) {
+      buffer += "%" + reg + " = getelementptr inbounds [" + size + " x i32], [" + size + " x i32]* %" + id + ", i64 0, i64 " + index + "\n";
+      reg++;
+   }
+
+   static void getelementptr_double(String id, int size, int index) {
+      buffer += "%" + reg + " = getelementptr inbounds [" + size + " x double], [" + size + " x double]* %" + id + ", i64 0, i64 " + index + "\n";
+      reg++;
+   }
+
+   static String getConsts(HashMap<String, Array> consts) {
+      String text = "";
+      for (Map.Entry<String, Array> entry : consts.entrySet()) {
+         String ID = entry.getKey();
+         Array array = entry.getValue();
+         String type = array.type;
+         if (array.type.equals("int[]")) {
+            type = "i32";
+         } else if (array.type.equals("float[]")) {
+            type = "double";
+         }
+
+         if (type.equals("i32") || type.equals("double")) { // ARRAY
+            text += "@" + ID + " = private unnamed_addr constant [" + array.values.size() + " x " + type + "] [";
+
+            for (String v : array.values)
+               text += type + " " + v + ", ";
+
+            text = text.substring(0, text.length() - 2);
+            text += "], align 16\n";
+
+         }
+      }
+      return text;
+   }
+
+
+   static String generate(HashMap<String, Array> consts) {
       String text = "";
       text += "declare i32 @printf(ptr noundef, ...)\n";
       text += "declare i32 @scanf(ptr noundef, ...)\n";
@@ -378,6 +430,9 @@ class LLVMGenerator {
       text += "@strps = constant [4 x i8] c\"%s\\0A\\00\"\n";
       text += "@strs = constant [3 x i8] c\"%s\\00\"\n";
       text += "@strspi = constant [3 x i8] c\"%d\\00\"\n";
+
+      text += getConsts(consts);
+
       text += header_text;
       text += "define i32 @main() nounwind{\n";
       text += main_text;

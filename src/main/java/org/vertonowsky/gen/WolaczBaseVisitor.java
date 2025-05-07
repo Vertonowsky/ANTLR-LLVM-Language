@@ -67,6 +67,13 @@ public class WolaczBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitNewArray(WolaczParser.NewArrayContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitRepetitions(WolaczParser.RepetitionsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -186,14 +193,14 @@ public class WolaczBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitId1(WolaczParser.Id1Context ctx) { return visitChildren(ctx); }
+	@Override public T visitFloat64(WolaczParser.Float64Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArray(WolaczParser.ArrayContext ctx) { return visitChildren(ctx); }
+	@Override public T visitId1(WolaczParser.Id1Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -222,6 +229,13 @@ public class WolaczBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitPar(WolaczParser.ParContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitArrElem(WolaczParser.ArrElemContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -312,20 +326,6 @@ public class WolaczBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIntarray(WolaczParser.IntarrayContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitFloatarray(WolaczParser.FloatarrayContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitFunction(WolaczParser.FunctionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -348,4 +348,11 @@ public class WolaczBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitFblock(WolaczParser.FblockContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitArrayType(WolaczParser.ArrayTypeContext ctx) { return visitChildren(ctx); }
 }

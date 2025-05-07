@@ -4,11 +4,12 @@ program: block;
 
 block: ( (operation|function)? NEWLINE )*;
 
-operation:  REPEAT repetitions ':' block ENDREPEAT	#repeat
-            | IF cond ':' ifblock ENDIF             #if
-            | WRITE '(' ID ')' 		                #write
-	        | ID '=' expr0		                    #assign
-	        | READ '(' ID ')'   		            #read
+operation:  REPEAT repetitions ':' block ENDREPEAT	    #repeat
+            | IF cond ':' ifblock ENDIF                 #if
+            | WRITE '(' ID ')' 		                    #write
+	        | ID '=' expr0		                        #assign
+	        | READ '(' ID ')'   		                #read
+	        | arrayType ID '=' '[' (INT | FLOAT)* ']'   #newArray
             ;
 
 repetitions: repvalue
@@ -45,11 +46,11 @@ expr3:  expr4			#single3
 expr4:   INT			    #int
        | FLOAT			    #float
        | ID                 #id1
-       | arrayExpr          #array
        | TOINT expr4		#toint
        | TOFLOAT expr4		#tofloat
        | funccall   		#functioncall
        | '(' expr0 ')'		#par
+       | ID '[' INT ']'     #arrElem
 ;
 
 funccall: ID '(' (expr4 (',' expr4)*)? ')'
@@ -76,10 +77,6 @@ boolExpr4: BOOL                 #bool
          | '(' boolExpr0 ')'    #boolpar
 ;
 
-arrayExpr:  '[' INT (',' INT)* ']'      #intarray
-          | '[' FLOAT (',' FLOAT)* ']'  #floatarray
-    ;
-
 function: FUNCTION fname  '(' fparam '):' fblock NEWLINE ENDFUNCTION
 ;
 
@@ -91,6 +88,9 @@ fparam: (FTYPE ID (',' FTYPE ID)* )?
 
 fblock: ( operation? NEWLINE )* 'return' ID
 ;
+
+arrayType: 'int[]'
+    | 'float[]';
 
 
 

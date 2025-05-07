@@ -1,11 +1,12 @@
 package org.vertonowsky;
 
+import org.antlr.v4.runtime.tree.TerminalNode;
 import org.vertonowsky.gen.WolaczBaseListener;
 import org.vertonowsky.gen.WolaczParser;
 
 import java.util.*;
 
-enum VarType {INT, FLOAT, STRING, BOOL, UNKNOWN}
+enum VarType {INT, FLOAT, FLOAT64, STRING, BOOL, UNKNOWN}
 
 class Value {
     public String name;
@@ -19,11 +20,22 @@ class Value {
     }
 }
 
+class Array {
+    public String type;
+    public ArrayList<String> values; // zmienna String ma jednoelementową listę
+
+    public Array(String type, ArrayList<String> values) {
+        this.type = type;
+        this.values = values;
+    }
+}
+
 public class LLVMActions extends WolaczBaseListener {
 
     HashMap<String, Value> variables = new HashMap<String, Value>();
     HashMap<String, Value> localvariables = new HashMap<String, Value>();
     HashMap<String,String> functions = new HashMap<String,String>();
+    public static HashMap<String, Array> consts = new HashMap<String, Array>(); // wszystkie stałe: ID -> array
     Stack<Value> stack = new Stack<Value>();
     List<String> funcArgs = new ArrayList<>();
     String function;
@@ -200,8 +212,8 @@ public class LLVMActions extends WolaczBaseListener {
         switch (tmp.type) {
             case INT    -> LLVMGenerator.load_i32(ID);
             case FLOAT  -> LLVMGenerator.load_double(ID);
-            case STRING -> LLVMGenerator.load_bool(ID);
-            case BOOL   -> LLVMGenerator.load_string(ID);
+            case STRING -> LLVMGenerator.load_string(ID);
+            case BOOL   -> LLVMGenerator.load_bool(ID);
         }
 
         stack.push(new Value("%" + (LLVMGenerator.reg - 1), tmp.type, tmp.length));
@@ -223,9 +235,8 @@ public class LLVMActions extends WolaczBaseListener {
         switch (tmp.type) {
             case INT    -> LLVMGenerator.load_i32(ID);
             case FLOAT  -> LLVMGenerator.load_double(ID);
-            case STRING -> LLVMGenerator.load_bool(ID);
-            case BOOL   -> LLVMGenerator.load_string(ID);
-
+            case STRING -> LLVMGenerator.load_string(ID);
+            case BOOL   -> LLVMGenerator.load_bool(ID);
         }
 
         stack.push(new Value("%" + (LLVMGenerator.reg - 1), tmp.type, tmp.length));
@@ -239,6 +250,7 @@ public class LLVMActions extends WolaczBaseListener {
             stack.push(localvariables.get(ID));
             return;
         }
+
         if (!variables.containsKey(ID) && !localvariables.containsKey(ID))
             error(ctx.getStart().getLine(), "unknown variable");
 
@@ -246,8 +258,8 @@ public class LLVMActions extends WolaczBaseListener {
         switch (tmp.type) {
             case INT    -> LLVMGenerator.load_i32(ID);
             case FLOAT  -> LLVMGenerator.load_double(ID);
-            case STRING -> LLVMGenerator.load_bool(ID);
-            case BOOL   -> LLVMGenerator.load_string(ID);
+            case STRING -> LLVMGenerator.load_string(ID);
+            case BOOL   -> LLVMGenerator.load_bool(ID);
         }
 
         stack.push(new Value("%" + (LLVMGenerator.reg - 1), tmp.type, tmp.length));
@@ -410,6 +422,74 @@ public class LLVMActions extends WolaczBaseListener {
         Value v = stack.pop();
         LLVMGenerator.sitofp(v.name);
         stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT, 0));
+    }
+
+    @Override
+    public void exitNewArray(WolaczParser.NewArrayContext ctx) {
+        String ID = ctx.ID().getText();
+        String prefix = global ? "@" : "%";
+
+        ArrayList<String> values = new ArrayList<>();
+        String type = ctx.arrayType().getText();
+        for (TerminalNode token : ctx.getTokens(WolaczParser.INT)) {
+            String number = token.getText();
+            if (type.equals("float[]"))
+                error(ctx.getStart().getLine(), "Array element type mismatch: expected float, got int");
+
+            values.add(number);
+        }
+        for (TerminalNode token : ctx.getTokens(WolaczParser.FLOAT)) {
+            String number = token.getText();
+            if (type.equals("int[]"))
+                error(ctx.getStart().getLine(), "Array element type mismatch: expected float, got int");
+
+            values.add(number);
+        }
+
+        if (!consts.containsKey(ID) && !variables.containsKey(ID)) {
+            consts.put(ID, new Array(type, values));
+
+            if (type.equals("int[]")) {
+                variables.put("%" + ID, new Value("%" + ID, VarType.INT, 0));
+                LLVMGenerator.declare_i32_array(ID, values.size());
+            } else if (type.equals("float[]")) {
+                variables.put("%" + ID, new Value("%" + ID, VarType.FLOAT, 0));
+                LLVMGenerator.declare_double_array(ID, values.size());
+            }
+        } else {
+            error(ctx.getStart().getLine(), "Variable " + ID + " already declared");
+        }
+    }
+
+    @Override
+    public void exitArrElem(WolaczParser.ArrElemContext ctx) {
+        String prefix = "%";
+        String ID = ctx.ID().getText();
+        if (consts.containsKey(ID)) {
+            String type = consts.get(ID).type;
+            int size = consts.get(ID).values.size();
+            int i = Integer.parseInt(ctx.INT().getText()); // indeks
+            if (i < 0 || i >= size)
+                error(ctx.getStart().getLine(), "Index out of bounds");
+
+            if (type.equals("int[]")) {
+                LLVMGenerator.getelementptr_i32(ID, size, i);
+                int pom = LLVMGenerator.reg - 1;
+                LLVMGenerator.load_i32(prefix + pom);
+                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.INT, 0));
+                return;
+            } else if (type.equals("float[]")) {
+                LLVMGenerator.getelementptr_double(ID, size, i);
+                int pom = LLVMGenerator.reg - 1;
+                LLVMGenerator.load_double(prefix + pom);
+                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT, 0));
+                return;
+            }
+
+            error(ctx.getStart().getLine(), "Unknown array type");
+        } else {
+            error(ctx.getStart().getLine(), "Unknown array " + ID);
+        }
     }
 
     @Override
